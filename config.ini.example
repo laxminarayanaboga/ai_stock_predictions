@@ -1,0 +1,17 @@
+[Fyers_APP]
+# Replace these with your actual Fyers API credentials
+redirect_uri = http://127.0.0.1
+client_id = YOUR_CLIENT_ID_HERE
+secret_key = YOUR_SECRET_KEY_HERE
+grant_type = authorization_code
+response_type = code
+state = sample
+refresh_token = YOUR_REFRESH_TOKEN_HERE
+app_id_hash = YOUR_APP_ID_HASH_HERE
+pin = YOUR_PIN_HERE
+access_token = YOUR_ACCESS_TOKEN_HERE
+
+# Instructions:
+# 1. Get your Fyers API credentials from https://myapi.fyers.in/
+# 2. Replace all YOUR_*_HERE placeholders with actual values
+# 3. This file is excluded from git for security
