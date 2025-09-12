@@ -232,3 +232,9 @@ data/raw/*.csv
 # Model outputs and temporary files
 *.pkl
 *.joblib
+
+# Simulation results
+simulation_results/
+*trades*.json
+*equity_curve*.json
+*performance_report*.json

@@ -6,10 +6,14 @@ import os
 import json
 import datetime
 import pandas as pd
+import sys
 
-from data.data_fetch import fetch_historical_raw_data
+# Add paths for imports
+sys.path.append('/Users/bogalaxminarayana/myGit/ai_stock_predictions')
+
+from src.data.data_fetch import fetch_historical_raw_data
 from utilities.date_utilities import get_current_epoch_timestamp, get_epoch_timestamp_from_datetime_ist_string
-from data.symbols_management import filterNifty50Symbols, getAllIntradayNSEApprovedSymbols, getAllIntradayNSEApprovedSymbolsExceptNifty50, getAllIntradayNSEApprovedSymbolsExceptNifty500, getBlueChipsSymbos, getNifty200Symbols, getNifty500Symbols, getNifty500SymbolsExceptNifty50, getNifty50Symbols
+from src.data.symbols_management import filterNifty50Symbols, getAllIntradayNSEApprovedSymbols, getAllIntradayNSEApprovedSymbolsExceptNifty50, getAllIntradayNSEApprovedSymbolsExceptNifty500, getBlueChipsSymbos, getNifty200Symbols, getNifty500Symbols, getNifty500SymbolsExceptNifty50, getNifty50Symbols
 
 from datetime import datetime, timezone, timedelta
 
@@ -98,6 +102,45 @@ def save_historical_data_2024Jul01_to_2025Jan18(symbol, interval):
         # json.dump(data, f, indent=4)
         json.dump(data, f)
     print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
+
+
+def save_validation_period_data(symbol, interval):
+    """Download 10-minute data for AI validation period: Aug 2023 to Aug 2025"""
+    dates = [
+        # 2023 Q3-Q4
+        {"start_date": "2023-08-01", "end_date": "2023-09-30"},
+        {"start_date": "2023-10-01", "end_date": "2023-12-31"},
+        # 2024 Q1-Q4
+        {"start_date": "2024-01-01", "end_date": "2024-03-31"},
+        {"start_date": "2024-04-01", "end_date": "2024-06-30"},
+        {"start_date": "2024-07-01", "end_date": "2024-09-30"},
+        {"start_date": "2024-10-01", "end_date": "2024-12-31"},
+        # 2025 Q1-Q3
+        {"start_date": "2025-01-01", "end_date": "2025-03-31"},
+        {"start_date": "2025-04-01", "end_date": "2025-06-30"},
+        {"start_date": "2025-07-01", "end_date": "2025-08-31"}
+    ]
+
+    for date in dates:
+        start_date = date["start_date"]
+        end_date = date["end_date"]
+        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
+        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 21:00:00')
+
+        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
+        os.makedirs(cache_dir, exist_ok=True)
+        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
+
+        # if cache file already exists, skip
+        if os.path.exists(cache_file):
+            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
+            continue
+
+        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
+
+        with open(cache_file, 'w') as f:
+            json.dump(data, f)
+        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
 
 
 def save_2025_histotical_data(symbol, interval):
