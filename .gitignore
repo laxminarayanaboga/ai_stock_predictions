@@ -238,3 +238,4 @@ simulation_results/
 *trades*.json
 *equity_curve*.json
 *performance_report*.json
+src/simulator/results/
