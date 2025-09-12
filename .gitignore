@@ -239,3 +239,4 @@ simulation_results/
 *equity_curve*.json
 *performance_report*.json
 src/simulator/results/
+cache_raw_data_all_intraday

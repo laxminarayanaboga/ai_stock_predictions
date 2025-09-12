@@ -234,15 +234,40 @@ def save_2023_histotical_data(symbol, interval):
 
 
 def save_2022_2021_2020_histotical_data(symbol, interval):
-    dates = [       
+    dates = [
+        # 2015 (from Sep 11 to match daily data)
+        {"start_date": "2015-09-11", "end_date": "2015-12-31"},
+        # 2016
+        {"start_date": "2016-01-01", "end_date": "2016-03-31"},
+        {"start_date": "2016-04-01", "end_date": "2016-06-30"},
+        {"start_date": "2016-07-01", "end_date": "2016-09-30"},
+        {"start_date": "2016-10-01", "end_date": "2016-12-31"},
+        # 2017
+        {"start_date": "2017-01-01", "end_date": "2017-03-31"},
+        {"start_date": "2017-04-01", "end_date": "2017-06-30"},
+        {"start_date": "2017-07-01", "end_date": "2017-09-30"},
+        {"start_date": "2017-10-01", "end_date": "2017-12-31"},
+        # 2018
+        {"start_date": "2018-01-01", "end_date": "2018-03-31"},
+        {"start_date": "2018-04-01", "end_date": "2018-06-30"},
+        {"start_date": "2018-07-01", "end_date": "2018-09-30"},
+        {"start_date": "2018-10-01", "end_date": "2018-12-31"},
+        # 2019
+        {"start_date": "2019-01-01", "end_date": "2019-03-31"},
+        {"start_date": "2019-04-01", "end_date": "2019-06-30"},
+        {"start_date": "2019-07-01", "end_date": "2019-09-30"},
+        {"start_date": "2019-10-01", "end_date": "2019-12-31"},
+        # 2020
         {"start_date": "2020-01-01", "end_date": "2020-03-31"},
         {"start_date": "2020-04-01", "end_date": "2020-06-30"},
         {"start_date": "2020-07-01", "end_date": "2020-09-30"},
         {"start_date": "2020-10-01", "end_date": "2020-12-31"},
+        # 2021
         {"start_date": "2021-01-01", "end_date": "2021-03-31"},
         {"start_date": "2021-04-01", "end_date": "2021-06-30"},
         {"start_date": "2021-07-01", "end_date": "2021-09-30"},
         {"start_date": "2021-10-01", "end_date": "2021-12-31"},
+        # 2022
         {"start_date": "2022-01-01", "end_date": "2022-03-31"},
         {"start_date": "2022-04-01", "end_date": "2022-06-30"},
         {"start_date": "2022-07-01", "end_date": "2022-09-30"},

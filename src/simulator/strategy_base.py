@@ -24,6 +24,10 @@ class StrategyConfig:
     min_price_change: float = 0.005
     position_size: int = 100
     entry_time: time = time(9, 15)
+    # New: Open price validation
+    validate_open_price: bool = False
+    max_open_error_pct: float = 0.02  # 2% maximum error in open price prediction
+    delayed_entry: bool = False  # Wait for next candle to enter after open validation
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert config to dictionary"""
@@ -48,6 +52,7 @@ class StrategyResults:
     avg_pnl_per_trade: float
     trades: List[Dict[str, Any]]
     metadata: Dict[str, Any] = None
+    advanced_metrics: Dict[str, Any] = None
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert results to dictionary for serialization"""
@@ -83,10 +88,14 @@ class BaseStrategy(ABC):
         """
         pass
     
-    def should_enter_trade(self, signal: Dict[str, Any]) -> bool:
+    def should_enter_trade(self, signal: Dict[str, Any], actual_open_price: float = None) -> bool:
         """
         Determine if we should enter a trade based on signal.
         Can be overridden for custom logic.
+        
+        Args:
+            signal: Trading signal with predictions and confidence
+            actual_open_price: Actual market opening price for validation
         """
         if not signal:
             return False
@@ -94,8 +103,22 @@ class BaseStrategy(ABC):
         confidence = signal.get('confidence', 0.0)
         expected_change = signal.get('expected_change_pct', 0.0)
         
-        return (confidence >= self.config.min_confidence and 
-                abs(expected_change) >= self.config.min_price_change)
+        # Basic confidence and price change checks
+        basic_criteria = (confidence >= self.config.min_confidence and 
+                         abs(expected_change) >= self.config.min_price_change)
+        
+        if not basic_criteria:
+            return False
+        
+        # Open price validation (if enabled)
+        if self.config.validate_open_price and actual_open_price is not None:
+            predicted_open = signal.get('predicted_open')
+            if predicted_open is not None:
+                open_error_pct = abs(predicted_open - actual_open_price) / actual_open_price
+                if open_error_pct > self.config.max_open_error_pct:
+                    return False  # Open prediction is too inaccurate
+        
+        return True
     
     def create_trade_entry(self, signal: Dict[str, Any], opening_price: float):
         """
@@ -167,17 +190,26 @@ class PredictionBasedStrategy(BaseStrategy):
         if not prediction:
             return None
         
-        # Get confidence
-        confidence = prediction.get('confidence', 0.5)
+        # Get confidence - handle different data formats
+        confidence = 0.5  # default
+        if 'confidence' in prediction:
+            confidence = prediction['confidence']
+        elif 'predicted' in prediction and 'confidence' in prediction['predicted']:
+            confidence = prediction['predicted']['confidence']
         
         # Get predicted close price - handle different data formats
         predicted_close = None
+        predicted_open = None
+        
         if 'predicted_close' in prediction:
             predicted_close = prediction['predicted_close']
         elif 'Close' in prediction:
             predicted_close = prediction['Close']
         elif 'predicted' in prediction and 'Close' in prediction['predicted']:
             predicted_close = prediction['predicted']['Close']
+            # Also get predicted open if available
+            if 'Open' in prediction['predicted']:
+                predicted_open = prediction['predicted']['Open']
         else:
             return None  # No predicted close price available
         
@@ -187,7 +219,7 @@ class PredictionBasedStrategy(BaseStrategy):
         # Determine direction
         direction = 'LONG' if expected_change_pct > 0 else 'SHORT'
         
-        return {
+        signal = {
             'direction': direction,
             'confidence': confidence,
             'expected_change_pct': expected_change_pct,
@@ -195,6 +227,12 @@ class PredictionBasedStrategy(BaseStrategy):
             'opening_price': opening_price,
             'signal_strength': abs(expected_change_pct) * confidence
         }
+        
+        # Add predicted open if available (for validation)
+        if predicted_open is not None:
+            signal['predicted_open'] = predicted_open
+        
+        return signal
 
 
 class CustomLogicStrategy(BaseStrategy):
@@ -270,6 +308,13 @@ class StrategyRegistry:
             with open(summary_file, 'w') as f:
                 json.dump(results.to_dict(), f, indent=2, default=str)
             print(f"💾 Summary saved: {summary_file}")
+            
+            # Save advanced metrics separately for easy access
+            if results.advanced_metrics:
+                metrics_file = output_dir / f"{strategy_id}_advanced_metrics.json"
+                with open(metrics_file, 'w') as f:
+                    json.dump(results.advanced_metrics, f, indent=2, default=str)
+                print(f"💾 Advanced metrics saved: {metrics_file}")
             
             # Create equity curve
             if results.trades:

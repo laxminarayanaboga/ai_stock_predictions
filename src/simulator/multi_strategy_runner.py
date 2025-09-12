@@ -22,6 +22,7 @@ from simulator.strategy_base import (
     StrategyConfig, PredictionBasedStrategy, StrategyRegistry
 )
 from simulator.intraday_core import IntradaySimulator
+from simulator.advanced_analytics import AdvancedAnalytics
 
 
 class MultiStrategySimulator:
@@ -34,6 +35,7 @@ class MultiStrategySimulator:
         self.predictions_file = Path(predictions_file)
         self.simulator = IntradaySimulator()
         self.registry = StrategyRegistry()
+        self.analytics = AdvancedAnalytics()  # Initialize advanced analytics
         
         # Create timestamped output directory
         if output_dir is None:
@@ -120,12 +122,27 @@ class MultiStrategySimulator:
             if signal:
                 signals_generated += 1
             
-            # Check if we should enter trade
-            if not strategy.should_enter_trade(signal):
+            # Check if we should enter trade (with open price validation if enabled)
+            if not strategy.should_enter_trade(signal, opening_price):
                 continue
             
-            # Create trade entry
-            trade_entry = strategy.create_trade_entry(signal, opening_price)
+            # Handle delayed entry if enabled
+            if strategy.config.delayed_entry and len(day_data) > 1:
+                # Use next candle's open price for more realistic entry
+                entry_price = day_data.iloc[1]['close']  # Second candle's close as entry
+                # Update entry time to second candle
+                from datetime import time
+                entry_time = time(9, 25)  # 10 minutes later
+            else:
+                # Immediate entry at market open
+                entry_price = opening_price
+                entry_time = strategy.config.entry_time
+            
+            # Create trade entry with appropriate price and time
+            trade_entry = strategy.create_trade_entry(signal, entry_price)
+            # Override entry time if delayed
+            if strategy.config.delayed_entry:
+                trade_entry.entry_time = entry_time
             
             # Simulate the trade
             result = self.simulator.simulate_trade(trade_entry, day_data)
@@ -163,24 +180,25 @@ class MultiStrategySimulator:
         # Calculate results using strategy framework
         results = strategy.calculate_results(all_trades)
         
+        # Perform advanced analytics
+        advanced_analysis = self.analytics.analyze_strategy(all_trades)
+        
+        # Store advanced metrics in the results
+        results.advanced_metrics = advanced_analysis
+        
         # Add metadata
         results.metadata = {
             'signals_generated': signals_generated,
             'signal_to_trade_ratio': len(all_trades) / signals_generated if signals_generated > 0 else 0,
             'data_period': f"{trading_dates[0]} to {trading_dates[-1]}",
-            'trading_days': len(trading_dates)
+            'trading_days': len(trading_dates),
         }
         
         # Store results in registry
         self.registry.add_results(strategy_id, results)
         
-        # Print summary
-        print(f"\n📊 STRATEGY RESULTS:")
-        print(f"   Signals Generated: {signals_generated}")
-        print(f"   Total Trades: {results.total_trades}")
-        print(f"   Win Rate: {results.win_rate_pct:.1f}%")
-        print(f"   Total PnL: ₹{results.total_pnl:,.2f}")
-        print(f"   Avg PnL/Trade: ₹{results.avg_pnl_per_trade:.2f}")
+        # Print enhanced summary with advanced metrics
+        self._print_enhanced_summary(results, advanced_analysis)
         
         return results.to_dict()
     
@@ -474,6 +492,43 @@ class MultiStrategySimulator:
         
         return chart_path
 
+    def _print_enhanced_summary(self, results, advanced_analysis):
+        """Print enhanced summary with advanced metrics"""
+        risk_metrics = advanced_analysis['risk_metrics']
+        distribution_metrics = advanced_analysis['distribution_metrics']
+        summary = advanced_analysis['summary']
+        
+        print(f"\n📊 STRATEGY RESULTS:")
+        print(f"   Signals Generated: {results.metadata.get('signals_generated', 0)}")
+        print(f"   Total Trades: {results.total_trades}")
+        print(f"   Win Rate: {results.win_rate_pct:.1f}%")
+        print(f"   Total PnL: ₹{results.total_pnl:,.2f}")
+        print(f"   Avg PnL/Trade: ₹{results.avg_pnl_per_trade:.2f}")
+        
+        print(f"\n📈 ADVANCED RISK METRICS:")
+        print(f"   📊 Sharpe Ratio: {risk_metrics['sharpe_ratio']:.3f}")
+        print(f"   📉 Max Drawdown: {risk_metrics['max_drawdown']:.2f}%")
+        print(f"   ⚖️  Sortino Ratio: {risk_metrics['sortino_ratio']:.3f}")
+        print(f"   💰 Profit Factor: {risk_metrics['profit_factor']:.2f}")
+        print(f"   🎯 Calmar Ratio: {risk_metrics['calmar_ratio']:.3f}")
+        
+        print(f"\n🎲 TRADE DISTRIBUTION:")
+        print(f"   💚 Avg Win: ₹{distribution_metrics['avg_win_size']:.2f}")
+        print(f"   💔 Avg Loss: ₹{distribution_metrics['avg_loss_size']:.2f}")
+        print(f"   🔥 Max Win Streak: {distribution_metrics['consecutive_wins_max']}")
+        print(f"   ❄️  Max Loss Streak: {distribution_metrics['consecutive_losses_max']}")
+        print(f"   ⚡ Win/Loss Ratio: {distribution_metrics['win_loss_ratio']:.2f}")
+        
+        print(f"\n🔬 QUALITY ASSESSMENT:")
+        print(f"   🏆 Overall Rating: {summary['quality_rating']}")
+        print(f"   ⚠️  Risk Level: {summary['risk_level']}")
+        print(f"   📊 Statistical Confidence: {summary['statistical_confidence']}")
+        
+        if summary.get('key_strengths'):
+            print(f"   ✅ Strengths: {', '.join(summary['key_strengths'])}")
+        if summary.get('key_weaknesses'):
+            print(f"   ⚠️  Weaknesses: {', '.join(summary['key_weaknesses'])}")
+
 
 # Define predefined strategies
 def create_predefined_strategies() -> List[StrategyConfig]:
@@ -613,6 +668,60 @@ def create_predefined_strategies() -> List[StrategyConfig]:
             min_confidence=0.95,
             min_price_change=0.01,
             position_size=100
+        ),
+        
+        # Open price validation strategies
+        StrategyConfig(
+            strategy_id="strategy_14_open_validated",
+            name="Strategy 14 - Open Validated",
+            description="Validate open prediction: SL=1.5%, TP=3%, Conf=65%, Max Open Error=2%",
+            stop_loss_pct=0.015,
+            take_profit_pct=0.03,
+            min_confidence=0.65,
+            min_price_change=0.005,
+            position_size=100,
+            validate_open_price=True,
+            max_open_error_pct=0.02
+        ),
+        
+        StrategyConfig(
+            strategy_id="strategy_15_strict_open_validation",
+            name="Strategy 15 - Strict Open Validation",
+            description="Strict open validation: SL=1.5%, TP=3%, Conf=60%, Max Open Error=1%",
+            stop_loss_pct=0.015,
+            take_profit_pct=0.03,
+            min_confidence=0.6,
+            min_price_change=0.005,
+            position_size=100,
+            validate_open_price=True,
+            max_open_error_pct=0.01
+        ),
+        
+        StrategyConfig(
+            strategy_id="strategy_16_relaxed_open_validation",
+            name="Strategy 16 - Relaxed Open Validation",
+            description="Relaxed open validation: SL=1.5%, TP=3%, Conf=60%, Max Open Error=3%",
+            stop_loss_pct=0.015,
+            take_profit_pct=0.03,
+            min_confidence=0.6,
+            min_price_change=0.005,
+            position_size=100,
+            validate_open_price=True,
+            max_open_error_pct=0.03
+        ),
+        
+        StrategyConfig(
+            strategy_id="strategy_17_realistic_entry",
+            name="Strategy 17 - Realistic Entry",
+            description="Realistic trading: Validate @ 9:15, Enter @ 9:25, SL=1.5%, TP=3%, Conf=60%, Max Open Error=3%",
+            stop_loss_pct=0.015,
+            take_profit_pct=0.03,
+            min_confidence=0.6,
+            min_price_change=0.005,
+            position_size=100,
+            validate_open_price=True,
+            max_open_error_pct=0.03,
+            delayed_entry=True
         )
     ]
     
@@ -634,14 +743,16 @@ def main():
             print(f"🗑️ Cleaning up old run: {old_dir.name}")
             shutil.rmtree(old_dir)
     
-    # Define data paths
-    data_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/raw/10min/RELIANCE_NSE_10min_20230801_to_20250831.csv"
+    # Define data paths - Use filtered 3-year dataset for efficient simulation
+    data_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/raw/10min/RELIANCE_NSE_10min_20220801_to_20250831_3year_simulation.csv"
     
-    # Use the improved v2_attention model predictions (JSON format for better performance and readability)
-    predictions_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/predictions/backtest_predictions_v2_attention.json"
+    # Use the enhanced v4_minimal model predictions with confidence scores for 3-year period
+    predictions_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/predictions/backtest_predictions_v4_minimal_with_confidence.json"
     
-    print(f"🧠 Using AI Model: v2_attention (Enhanced LSTM with Multi-head Attention)")
+    print(f"🧠 Using AI Model: v4_minimal (Enhanced LSTM trained on 8+ years, simulating 3 years)")
+    print(f"📊 Data file: {data_file}")
     print(f"📊 Prediction file: {predictions_file}")
+    print(f"📅 Simulation period: 2022-08-01 to 2025-08-31 (3-year focused period)")
     
     # Create multi-strategy simulator
     simulator = MultiStrategySimulator(data_file, predictions_file)
