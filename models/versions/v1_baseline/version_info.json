@@ -1,0 +1,11 @@
+{
+  "version_name": "v1_baseline",
+  "description": "Original model - 3-layer LSTM with 128 hidden units, 26 features",
+  "model_type": "EnhancedStockLSTM",
+  "creation_date": "2025-09-12T21:24:06.355975",
+  "training_date": null,
+  "performance_metrics": {},
+  "model_parameters": {},
+  "training_config": {},
+  "status": "created"
+}

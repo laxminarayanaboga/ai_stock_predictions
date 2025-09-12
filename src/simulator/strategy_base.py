@@ -167,10 +167,19 @@ class PredictionBasedStrategy(BaseStrategy):
         if not prediction:
             return None
         
-        # Get confidence and predicted price
+        # Get confidence
         confidence = prediction.get('confidence', 0.5)
-        predicted_close = prediction.get('predicted_close', 
-                                       prediction.get('Close', opening_price))
+        
+        # Get predicted close price - handle different data formats
+        predicted_close = None
+        if 'predicted_close' in prediction:
+            predicted_close = prediction['predicted_close']
+        elif 'Close' in prediction:
+            predicted_close = prediction['Close']
+        elif 'predicted' in prediction and 'Close' in prediction['predicted']:
+            predicted_close = prediction['predicted']['Close']
+        else:
+            return None  # No predicted close price available
         
         # Calculate expected price change
         expected_change_pct = (predicted_close - opening_price) / opening_price

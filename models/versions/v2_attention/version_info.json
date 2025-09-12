@@ -1,0 +1,39 @@
+{
+  "version_name": "v2_attention",
+  "description": "LSTM with multi-head attention mechanism",
+  "model_type": "EnhancedStockLSTM",
+  "creation_date": "2025-09-12T21:24:09.780529",
+  "training_date": "2025-09-12T21:24:14.368282",
+  "performance_metrics": {
+    "test_mse": 5021.5263671875,
+    "test_mae": 60.452457427978516,
+    "test_rmse": 70.86273193359375,
+    "direction_accuracy": 0.5,
+    "ohlc_mae": [
+      4.4513163566589355,
+      3.7293100357055664,
+      4.827311038970947,
+      3.620720148086548
+    ],
+    "ohlc_correlations": [
+      0.5555245643615683,
+      0.6929560418517247,
+      0.34739410316230823,
+      0.70875934526318
+    ],
+    "avg_correlation": 0.5761585136596953
+  },
+  "model_parameters": {
+    "input_size": 29,
+    "hidden_size": 64,
+    "num_layers": 2,
+    "output_size": 4
+  },
+  "training_config": {
+    "epochs": 100,
+    "lr": 0.0005,
+    "batch_size": 64,
+    "patience": 15
+  },
+  "status": "trained"
+}

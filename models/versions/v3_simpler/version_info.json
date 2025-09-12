@@ -1,0 +1,39 @@
+{
+  "version_name": "v3_simpler",
+  "description": "Simplified LSTM to reduce overfitting",
+  "model_type": "EnhancedStockLSTM",
+  "creation_date": "2025-09-12T21:24:06.378185",
+  "training_date": "2025-09-12T21:24:09.780182",
+  "performance_metrics": {
+    "test_mse": 7430.6845703125,
+    "test_mae": 79.96305847167969,
+    "test_rmse": 86.201416015625,
+    "direction_accuracy": 0.4772727272727273,
+    "ohlc_mae": [
+      5.75071907043457,
+      5.413763523101807,
+      5.672660827636719,
+      5.443528652191162
+    ],
+    "ohlc_correlations": [
+      -0.12916899624055403,
+      -0.013494795231502892,
+      -0.057117751584566355,
+      0.012656556853974342
+    ],
+    "avg_correlation": -0.04678124655066224
+  },
+  "model_parameters": {
+    "input_size": 29,
+    "hidden_size": 32,
+    "num_layers": 2,
+    "output_size": 4
+  },
+  "training_config": {
+    "epochs": 150,
+    "lr": 0.001,
+    "batch_size": 32,
+    "patience": 20
+  },
+  "status": "trained"
+}

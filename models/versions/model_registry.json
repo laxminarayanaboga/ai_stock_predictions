@@ -1,0 +1,24 @@
+{
+  "versions": {
+    "v1_baseline": {
+      "path": "models/versions/v1_baseline",
+      "creation_date": "2025-09-12T21:24:06.355975",
+      "description": "Original model - 3-layer LSTM with 128 hidden units, 26 features",
+      "status": "created"
+    },
+    "v3_simpler": {
+      "path": "models/versions/v3_simpler",
+      "creation_date": "2025-09-12T21:24:06.378185",
+      "description": "Simplified LSTM to reduce overfitting",
+      "status": "trained"
+    },
+    "v2_attention": {
+      "path": "models/versions/v2_attention",
+      "creation_date": "2025-09-12T21:24:09.780529",
+      "description": "LSTM with multi-head attention mechanism",
+      "status": "trained"
+    }
+  },
+  "current_version": "v2_attention",
+  "creation_date": "2025-09-12T21:22:40.548253"
+}

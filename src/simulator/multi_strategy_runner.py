@@ -70,8 +70,13 @@ class MultiStrategySimulator:
     
     def _load_predictions(self) -> Dict:
         """Load AI predictions"""
-        with open(self.predictions_file, 'rb') as f:
-            return pickle.load(f)
+        # Check if it's a JSON or PKL file
+        if str(self.predictions_file).endswith('.json'):
+            with open(self.predictions_file, 'r') as f:
+                return json.load(f)
+        else:
+            with open(self.predictions_file, 'rb') as f:
+                return pickle.load(f)
     
     def add_strategy(self, config: StrategyConfig, strategy_class=PredictionBasedStrategy):
         """Add a strategy to the simulator"""
@@ -574,6 +579,40 @@ def create_predefined_strategies() -> List[StrategyConfig]:
             min_confidence=0.6,
             min_price_change=0.01,
             position_size=100
+        ),
+        
+        # High confidence strategies to overcome transaction costs
+        StrategyConfig(
+            strategy_id="strategy_11_ultra_selective",
+            name="Strategy 11 - Ultra Selective",
+            description="Ultra high confidence: SL=1.5%, TP=4%, Conf=90%",
+            stop_loss_pct=0.015,
+            take_profit_pct=0.04,
+            min_confidence=0.9,
+            min_price_change=0.01,
+            position_size=100
+        ),
+        
+        StrategyConfig(
+            strategy_id="strategy_12_mega_confidence",
+            name="Strategy 12 - Mega Confidence",
+            description="Only best signals: SL=2%, TP=6%, Conf=85%",
+            stop_loss_pct=0.02,
+            take_profit_pct=0.06,
+            min_confidence=0.85,
+            min_price_change=0.015,
+            position_size=100
+        ),
+        
+        StrategyConfig(
+            strategy_id="strategy_13_quality_over_quantity",
+            name="Strategy 13 - Quality Over Quantity",
+            description="Fewer but better trades: SL=1%, TP=3%, Conf=95%",
+            stop_loss_pct=0.01,
+            take_profit_pct=0.03,
+            min_confidence=0.95,
+            min_price_change=0.01,
+            position_size=100
         )
     ]
     
@@ -597,7 +636,12 @@ def main():
     
     # Define data paths
     data_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/raw/10min/RELIANCE_NSE_10min_20230801_to_20250831.csv"
-    predictions_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/predictions/backtest_predictions.pkl"
+    
+    # Use the improved v2_attention model predictions (JSON format for better performance and readability)
+    predictions_file = "/Users/bogalaxminarayana/myGit/ai_stock_predictions/data/predictions/backtest_predictions_v2_attention.json"
+    
+    print(f"🧠 Using AI Model: v2_attention (Enhanced LSTM with Multi-head Attention)")
+    print(f"📊 Prediction file: {predictions_file}")
     
     # Create multi-strategy simulator
     simulator = MultiStrategySimulator(data_file, predictions_file)
