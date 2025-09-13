@@ -1,1 +1,0 @@
-# AI Stock Predictions Project
