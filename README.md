@@ -106,7 +106,7 @@ python predict.py
 python src/simulator/strategy_simulator.py
 
 # Multi-strategy comparison (recommended)
-python src/simulator/multi_strategy_runner.py
+python src/simulator/strategy_runner.py
 ```
 
 ## 🎪 **Usage Examples**
@@ -135,7 +135,7 @@ Close    ₹1377.00   ₹1375.88     -1.12   -0.1% 🔴
 
 ### **Multi-Strategy Trading Simulation**
 ```bash
-$ python src/simulator/multi_strategy_runner.py
+$ python src/simulator/strategy_runner.py
 
 🚀 Multi-Strategy Trading Simulator
 ================================================================================
@@ -211,7 +211,9 @@ ai_stock_predictions/
 │   ├── evaluation/          # Model evaluation
 │   │   └── model_evaluator.py
 │   └── simulator/           # Trading simulation framework
-│       ├── multi_strategy_runner.py    # 🎯 Main multi-strategy runner
+│       ├── strategy_runner.py           # 🎯 Modern signal-based multi-strategy runner
+│       ├── signal_generators.py        # Signal generation strategies  
+│       ├── signal_simulator.py         # Signal execution and simulation
 │       ├── strategy_simulator.py       # Single strategy simulator
 │       ├── strategy_base.py           # Strategy framework
 │       ├── intraday_core.py          # Core trading logic
@@ -276,7 +278,7 @@ python src/data/test_fyers_api_limits.py
 ### **🏗️ Trading Simulation Commands**
 ```bash
 # 🎯 Run multi-strategy comparison (RECOMMENDED)
-python src/simulator/multi_strategy_runner.py
+python src/simulator/strategy_runner.py
 
 # Run single strategy simulation
 python src/simulator/strategy_simulator.py
@@ -292,7 +294,7 @@ python api/fyers_data_api.py
 ```
 
 ### **📈 Simulation Output Structure**
-After running `multi_strategy_runner.py`, results are saved in timestamped folders:
+After running `strategy_runner.py`, results are saved in timestamped folders:
 ```
 src/simulator/results/run_YYYYMMDD_HHMMSS/
 ├── strategy_comparison_report.txt       # 📄 Detailed text analysis

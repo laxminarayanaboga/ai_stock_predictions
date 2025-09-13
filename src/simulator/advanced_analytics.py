@@ -273,87 +273,101 @@ class AdvancedAnalytics:
         if df.empty:
             return self._empty_temporal_analysis()
         
-        # Monthly returns
-        df['month'] = df['date'].dt.to_period('M')
-        monthly_returns = df.groupby('month')['pnl'].sum().to_dict()
-        monthly_returns = {str(k): v for k, v in monthly_returns.items()}
-        
-        # Daily returns
-        daily_returns = df.groupby(df['date'].dt.date)['pnl'].sum().to_dict()
-        daily_returns = {str(k): v for k, v in daily_returns.items()}
-        
-        # Rolling metrics (30-day windows)
-        df_daily = df.groupby(df['date'].dt.date)['pnl'].sum().reset_index()
-        df_daily.columns = ['date', 'daily_pnl']
-        
-        rolling_sharpe_30d = []
-        rolling_max_drawdown_30d = []
-        
-        if len(df_daily) >= 30:
-            for i in range(29, len(df_daily)):
-                window_returns = df_daily['daily_pnl'].iloc[i-29:i+1].values
-                window_mean = np.mean(window_returns)
-                window_std = np.std(window_returns, ddof=1)
-                
-                # Rolling Sharpe
-                if window_std > 0:
-                    rolling_sharpe = (window_mean * np.sqrt(252) - self.risk_free_rate) / (window_std * np.sqrt(252))
-                    rolling_sharpe_30d.append(rolling_sharpe)
-                else:
-                    rolling_sharpe_30d.append(0)
-                
-                # Rolling Max Drawdown
-                cumulative = np.cumsum(window_returns)
-                peak = cumulative[0]
-                max_dd = 0
-                for val in cumulative:
-                    if val > peak:
-                        peak = val
+        try:
+            # Ensure date column is datetime
+            if not pd.api.types.is_datetime64_any_dtype(df['date']):
+                df['date'] = pd.to_datetime(df['date'])
+            
+            # Add weekday column for later use
+            df['weekday'] = df['date'].dt.day_name()
+            
+            # Monthly returns
+            df['month'] = df['date'].dt.to_period('M')
+            monthly_returns = df.groupby('month')['pnl'].sum().to_dict()
+            monthly_returns = {str(k): v for k, v in monthly_returns.items()}
+            
+            # Daily returns
+            daily_returns = df.groupby(df['date'].dt.date)['pnl'].sum().to_dict()
+            daily_returns = {str(k): v for k, v in daily_returns.items()}
+            
+            # Rolling metrics (30-day windows)
+            df_daily = df.groupby(df['date'].dt.date)['pnl'].sum().reset_index()
+            df_daily.columns = ['date', 'daily_pnl']
+            
+            rolling_sharpe_30d = []
+            rolling_max_drawdown_30d = []
+            
+            if len(df_daily) >= 30:
+                for i in range(29, len(df_daily)):
+                    window_returns = df_daily['daily_pnl'].iloc[i-29:i+1].values
+                    window_mean = np.mean(window_returns)
+                    window_std = np.std(window_returns, ddof=1)
+                    
+                    # Rolling Sharpe
+                    if window_std > 0:
+                        rolling_sharpe = (window_mean * np.sqrt(252) - self.risk_free_rate) / (window_std * np.sqrt(252))
+                        rolling_sharpe_30d.append(rolling_sharpe)
                     else:
-                        dd = (peak - val) / abs(peak) if peak != 0 else 0
-                        max_dd = max(max_dd, dd)
-                rolling_max_drawdown_30d.append(max_dd * 100)
-        
-        # Performance by month
-        df['month_name'] = df['date'].dt.month_name()
-        performance_by_month = {}
-        for month in df['month_name'].unique():
-            month_data = df[df['month_name'] == month]
-            performance_by_month[month] = {
-                'total_pnl': month_data['pnl'].sum(),
-                'avg_pnl': month_data['pnl'].mean(),
-                'win_rate': (month_data['pnl'] > 0).mean() * 100,
-                'trade_count': len(month_data)
-            }
-        
-        # Performance by weekday
-        performance_by_weekday = {}
-        for day in df['weekday'].unique():
-            day_data = df[df['weekday'] == day]
-            performance_by_weekday[day] = {
-                'total_pnl': day_data['pnl'].sum(),
-                'avg_pnl': day_data['pnl'].mean(),
-                'win_rate': (day_data['pnl'] > 0).mean() * 100,
-                'trade_count': len(day_data)
-            }
-        
-        # Best and worst months
-        if monthly_returns:
-            best_month = max(monthly_returns.items(), key=lambda x: x[1])
-            worst_month = min(monthly_returns.items(), key=lambda x: x[1])
-        else:
-            best_month = worst_month = ("N/A", 0)
-        
-        return TemporalAnalysis(
-            monthly_returns=monthly_returns,
-            daily_returns=daily_returns,
-            rolling_sharpe_30d=rolling_sharpe_30d,
-            rolling_max_drawdown_30d=rolling_max_drawdown_30d,
-            performance_by_month=performance_by_month,
-            performance_by_weekday=performance_by_weekday,
-            best_month=best_month,
-            worst_month=worst_month
-        )
+                        rolling_sharpe_30d.append(0)
+                    
+                    # Rolling Max Drawdown
+                    cumulative = np.cumsum(window_returns)
+                    peak = cumulative[0]
+                    max_dd = 0
+                    for val in cumulative:
+                        if val > peak:
+                            peak = val
+                        else:
+                            dd = (peak - val) / abs(peak) if peak != 0 else 0
+                            max_dd = max(max_dd, dd)
+                    rolling_max_drawdown_30d.append(max_dd * 100)
+            
+            # Performance by month
+            df['month_name'] = df['date'].dt.month_name()
+            performance_by_month = {}
+            for month in df['month_name'].unique():
+                month_data = df[df['month_name'] == month]
+                performance_by_month[month] = {
+                    'total_pnl': month_data['pnl'].sum(),
+                    'avg_pnl': month_data['pnl'].mean(),
+                    'win_rate': (month_data['pnl'] > 0).mean() * 100,
+                    'trade_count': len(month_data)
+                }
+            
+            # Performance by weekday
+            performance_by_weekday = {}
+            for day in df['weekday'].unique():
+                day_data = df[df['weekday'] == day]
+                performance_by_weekday[day] = {
+                    'total_pnl': day_data['pnl'].sum(),
+                    'avg_pnl': day_data['pnl'].mean(),
+                    'win_rate': (day_data['pnl'] > 0).mean() * 100,
+                    'trade_count': len(day_data)
+                }
+            
+            # Best and worst months
+            if monthly_returns:
+                best_month = max(monthly_returns.items(), key=lambda x: x[1])
+                worst_month = min(monthly_returns.items(), key=lambda x: x[1])
+            else:
+                best_month = worst_month = ("N/A", 0)
+            
+            return TemporalAnalysis(
+                monthly_returns=monthly_returns,
+                daily_returns=daily_returns,
+                rolling_sharpe_30d=rolling_sharpe_30d,
+                rolling_max_drawdown_30d=rolling_max_drawdown_30d,
+                performance_by_month=performance_by_month,
+                performance_by_weekday=performance_by_weekday,
+                best_month=best_month,
+                worst_month=worst_month
+            )
+            
+        except Exception as e:
+            print(f"ERROR in temporal analysis: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return self._empty_temporal_analysis()
     
     def _calculate_statistical_significance(self, df: pd.DataFrame) -> StatisticalSignificance:
         """Calculate statistical significance tests"""
