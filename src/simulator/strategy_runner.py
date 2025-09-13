@@ -11,6 +11,8 @@ from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass, asdict
 import itertools
 import sys
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Add project root to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -346,6 +348,86 @@ class StrategyRunner:
                 'params': 'realistic_relaxed',
                 'name': 'OpenClose Relaxed Validation',
                 'desc': 'Relaxed open validation: Max Open Error=5%, Delayed Entry, SL=1.5%, TP=3%'
+            },
+            
+            # NEW: Gap-based strategies
+            {
+                'gen': 'gap_conservative',
+                'params': 'conservative',
+                'name': 'Gap Strategy Conservative',
+                'desc': 'Conservative gap strategy: Skip trades when gaps deviate >1.5% from prediction'
+            },
+            {
+                'gen': 'gap_standard',
+                'params': 'target_based',
+                'name': 'Gap Strategy Standard',
+                'desc': 'Standard gap strategy: Filter trades based on gap vs prediction alignment'
+            },
+            {
+                'gen': 'gap_relaxed',
+                'params': 'aggressive',
+                'name': 'Gap Strategy Relaxed',
+                'desc': 'Relaxed gap strategy: Trade with moderate gap tolerance'
+            },
+            
+            # NEW: Bracket order strategies
+            {
+                'gen': 'bracket_conservative',
+                'params': 'loose',
+                'name': 'Bracket Order Conservative',
+                'desc': 'Conservative bracket: Enter @ open, SL=predicted Low, TP=predicted High'
+            },
+            {
+                'gen': 'bracket_standard',
+                'params': 'target_based',
+                'name': 'Bracket Order Standard',
+                'desc': 'Standard bracket: Pure OHLC bracket with predicted levels'
+            },
+            {
+                'gen': 'bracket_aggressive',
+                'params': 'tight',
+                'name': 'Bracket Order Aggressive',
+                'desc': 'Aggressive bracket: Tight management with predicted H/L targets'
+            },
+            
+            # NEW: Technical confirmation strategies
+            {
+                'gen': 'tech_confirm_conservative',
+                'params': 'conservative',
+                'name': 'Technical Confirmation Conservative',
+                'desc': 'Conservative: AI + Technical agreement required, 7-period lookback'
+            },
+            {
+                'gen': 'tech_confirm_standard',
+                'params': 'target_based',
+                'name': 'Technical Confirmation Standard',
+                'desc': 'Standard: AI bias + Technical confirmation, 5-period indicators'
+            },
+            {
+                'gen': 'tech_confirm_responsive',
+                'params': 'aggressive',
+                'name': 'Technical Confirmation Responsive',
+                'desc': 'Responsive: Quick technical confirmation with 3-period indicators'
+            },
+            
+            # NEW: Adaptive position sizing strategies
+            {
+                'gen': 'adaptive_conservative',
+                'params': 'conservative',
+                'name': 'Adaptive Position Conservative',
+                'desc': 'Conservative adaptive: 1.5x max position multiplier based on confidence'
+            },
+            {
+                'gen': 'adaptive_standard',
+                'params': 'target_based',
+                'name': 'Adaptive Position Standard',
+                'desc': 'Standard adaptive: 2x max position sizing based on confidence + strength'
+            },
+            {
+                'gen': 'adaptive_aggressive',
+                'params': 'aggressive',
+                'name': 'Adaptive Position Aggressive',
+                'desc': 'Aggressive adaptive: 3x max position sizing for high-confidence trades'
             }
         ]
         
@@ -540,7 +622,119 @@ class StrategyRunner:
         print(f"   📋 Overall comparison: strategy_comparison_detailed.csv")
         print(f"   📝 Summary report: strategy_comparison_report.txt")
         
+        # Create visualizations
+        chart_path = self._create_visualizations(comparison_df_numeric)
+        if chart_path:
+            print(f"   📊 Visualization charts: {chart_path.name}")
+        
         return comparison_df_numeric
+
+    def _create_visualizations(self, df: pd.DataFrame):
+        """Create comparison charts similar to the old system"""
+        if len(df) == 0:
+            return None
+        
+        # Set up the plotting style
+        plt.style.use('default')
+        sns.set_palette("husl")
+        
+        # Create figure with subplots
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle('Strategy Comparison Analysis', fontsize=16, fontweight='bold')
+        
+        # 1. Total PnL Comparison
+        df_sorted = df.sort_values('Total PnL ₹', ascending=True)
+        colors = ['red' if x < 0 else 'green' for x in df_sorted['Total PnL ₹']]
+        ax1.barh(range(len(df_sorted)), df_sorted['Total PnL ₹'], color=colors, alpha=0.7)
+        ax1.set_yticks(range(len(df_sorted)))
+        ax1.set_yticklabels([name.replace('Strategy ', 'S') for name in df_sorted['Strategy Name']], fontsize=9)
+        ax1.set_xlabel('Total PnL (₹)')
+        ax1.set_title('Total PnL by Strategy')
+        ax1.grid(axis='x', alpha=0.3)
+        
+        # Add value labels
+        for i, v in enumerate(df_sorted['Total PnL ₹']):
+            ax1.text(v + (max(df_sorted['Total PnL ₹']) - min(df_sorted['Total PnL ₹'])) * 0.01, i, f'₹{v:,.0f}', 
+                    ha='left' if v < 0 else 'left', va='center', fontsize=8)
+        
+        # 2. Win Rate vs Total Trades
+        scatter = ax2.scatter(df['Executed Trades'], df['Win Rate %'], 
+                             c=df['Total PnL ₹'], cmap='RdYlGn', s=100, alpha=0.7)
+        ax2.set_xlabel('Total Trades')
+        ax2.set_ylabel('Win Rate (%)')
+        ax2.set_title('Win Rate vs Trade Volume')
+        ax2.grid(alpha=0.3)
+        
+        # Add strategy labels
+        for i, (_, row) in enumerate(df.iterrows()):
+            strategy_label = row['Strategy Name'].split(' - ')[1] if ' - ' in row['Strategy Name'] else row['Strategy Name']
+            # Truncate long labels
+            if len(strategy_label) > 15:
+                strategy_label = strategy_label[:15] + '...'
+            ax2.annotate(strategy_label, 
+                        (row['Executed Trades'], row['Win Rate %']), 
+                        xytext=(5, 5), textcoords='offset points', fontsize=8)
+        
+        # Add colorbar
+        cbar = plt.colorbar(scatter, ax=ax2)
+        cbar.set_label('Total PnL (₹)')
+        
+        # 3. Strategy Type Distribution
+        # Extract strategy types from names for grouping
+        strategy_types = []
+        for name in df['Strategy Name']:
+            if 'OpenClose' in name:
+                strategy_types.append('OpenClose')
+            elif 'HighLow' in name:
+                strategy_types.append('HighLow')
+            elif 'MeanReversion' in name:
+                strategy_types.append('MeanReversion')
+            elif 'Breakout' in name:
+                strategy_types.append('Breakout')
+            else:
+                strategy_types.append('Other')
+        
+        df_with_types = df.copy()
+        df_with_types['Strategy Type'] = strategy_types
+        
+        if len(df_with_types['Strategy Type'].unique()) > 1:
+            type_grouped = df_with_types.groupby('Strategy Type')['Total PnL ₹'].mean().reset_index()
+            ax3.bar(type_grouped['Strategy Type'], type_grouped['Total PnL ₹'], alpha=0.7, color='skyblue')
+            ax3.set_xlabel('Strategy Type')
+            ax3.set_ylabel('Average Total PnL (₹)')
+            ax3.set_title('Strategy Type Performance')
+            ax3.grid(axis='y', alpha=0.3)
+            plt.setp(ax3.get_xticklabels(), rotation=45, ha='right')
+            
+            # Add value labels
+            for i, row in type_grouped.iterrows():
+                ax3.text(i, row['Total PnL ₹'] + abs(row['Total PnL ₹']) * 0.05, 
+                        f'₹{row["Total PnL ₹"]:,.0f}', ha='center', va='bottom', fontsize=9)
+        else:
+            ax3.text(0.5, 0.5, 'Not enough data\nfor Strategy Type analysis', 
+                    transform=ax3.transAxes, ha='center', va='center')
+            ax3.set_title('Strategy Type Performance')
+        
+        # 4. Execution Rate vs Performance
+        scatter2 = ax4.scatter(df['Execution Rate %'], df['Total PnL ₹'], 
+                              c=df['Win Rate %'], cmap='viridis', s=100, alpha=0.7)
+        ax4.set_xlabel('Execution Rate (%)')
+        ax4.set_ylabel('Total PnL (₹)')
+        ax4.set_title('Execution Rate vs Performance')
+        ax4.grid(alpha=0.3)
+        
+        # Add colorbar
+        cbar2 = plt.colorbar(scatter2, ax=ax4)
+        cbar2.set_label('Win Rate (%)')
+        
+        plt.tight_layout()
+        
+        # Save the plot
+        chart_path = self.output_dir / "strategy_comparison_charts.png"
+        plt.savefig(chart_path, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        return chart_path
 
 
 def main():
