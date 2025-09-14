@@ -14,6 +14,7 @@ import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import argparse
+import yaml
 
 # Add project root to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -88,10 +89,11 @@ class StrategyRunner:
     Orchestrates signal generation, execution, and result analysis
     """
     
-    def __init__(self, data_file: str, predictions_file: str, output_dir: str = None, symbol: str = None):
+    def __init__(self, data_file: str, predictions_file: str, output_dir: str = None, symbol: str = None, only_tech: bool = False):
         self.data_file = Path(data_file)
         self.predictions_file = Path(predictions_file)
         self.symbol = symbol
+        self.only_tech = only_tech
         
         # Create timestamped output directory
         if output_dir is None:
@@ -112,6 +114,7 @@ class StrategyRunner:
         # Load data
         self.market_data = self._load_market_data()
         self.predictions = self._load_predictions()
+        self.signal_config_overrides = self._load_signal_config()
         
         print(f"📁 Results will be saved to: {self.output_dir}")
         print(f"📊 Loaded {len(self.market_data)} market candles")
@@ -141,6 +144,31 @@ class StrategyRunner:
             import pickle
             with open(self.predictions_file, 'rb') as f:
                 return pickle.load(f)
+
+    def _load_signal_config(self) -> Dict[str, Dict[str, Any]]:
+        """Load per-symbol signal threshold overrides from YAML and merge with global.
+        Returns mapping: generator_key -> dict of attribute overrides.
+        """
+        cfg_path = Path('src/simulator/config/signal_thresholds.yaml')
+        if not cfg_path.exists():
+            return {}
+        try:
+            with open(cfg_path, 'r') as f:
+                raw = yaml.safe_load(f) or {}
+        except Exception:
+            return {}
+
+        global_overrides = raw.get('global', {}) or {}
+        per_symbol = raw.get('per_symbol', {}) or {}
+        sym_overrides = per_symbol.get(self.symbol, {}) if self.symbol else {}
+
+        # Merge global and symbol-specific (symbol wins)
+        merged = dict(global_overrides)
+        for gen_key, params in (sym_overrides or {}).items():
+            base = dict(global_overrides.get(gen_key, {}))
+            base.update(params or {})
+            merged[gen_key] = base
+        return merged
     
     def run_strategy(self, config: StrategyConfiguration) -> StrategyResults:
         """Run a single strategy configuration"""
@@ -260,7 +288,7 @@ class StrategyRunner:
     def create_realistic_strategies(self) -> List[StrategyConfiguration]:
         """Create realistic strategy combinations - no stupid multiplication!"""
         
-        signal_generators = create_signal_generators()
+        signal_generators = create_signal_generators(self.signal_config_overrides)
         parameter_sets = create_parameter_sets()
         
         # Define realistic strategy combinations that make sense
@@ -283,6 +311,12 @@ class StrategyRunner:
                 'params': 'tight',
                 'name': 'OpenClose Aggressive',
                 'desc': 'Aggressive open-close strategy with tight management'
+            },
+            {
+                'gen': 'openclose_ultra',
+                'params': 'tight',
+                'name': 'OpenClose Ultra',
+                'desc': 'Ultra-sensitive open-close for flat regimes (0.15% min move)'
             },
             
             # HighLow strategies with appropriate parameters
@@ -412,6 +446,12 @@ class StrategyRunner:
                 'name': 'Technical Confirmation Responsive',
                 'desc': 'Responsive: Quick technical confirmation with 3-period indicators'
             },
+            {
+                'gen': 'tech_confirm_ultra',
+                'params': 'aggressive',
+                'name': 'Technical Confirmation Ultra',
+                'desc': 'Ultra-sensitive tech confirmation (0.15% min move, 3-period)'
+            },
             
             # NEW: Adaptive position sizing strategies
             {
@@ -431,6 +471,13 @@ class StrategyRunner:
                 'params': 'aggressive',
                 'name': 'Adaptive Position Aggressive',
                 'desc': 'Aggressive adaptive: 3x max position sizing for high-confidence trades'
+            }
+            ,
+            {
+                'gen': 'adaptive_ultra',
+                'params': 'target_based',
+                'name': 'Adaptive Position Ultra',
+                'desc': 'Ultra-sensitive adaptive: very small expected change threshold'
             }
         ]
         
@@ -462,6 +509,10 @@ class StrategyRunner:
             )
             
             configurations.append(config)
+        
+        # If requested, keep only Technical Confirmation strategies
+        if self.only_tech:
+            configurations = [c for c in configurations if c.strategy_id.startswith('tech_confirm_')]
         
         return configurations
     
@@ -747,6 +798,7 @@ def main():
     parser.add_argument("--pred", required=True, help="Path to predictions JSON for the same period")
     parser.add_argument("--symbol", required=False, help="Symbol name to tag outputs (e.g., RELIANCE)")
     parser.add_argument("--out", required=False, help="Optional custom output directory")
+    parser.add_argument("--only-tech", action="store_true", help="Run only Technical Confirmation strategies")
     args = parser.parse_args()
 
     print("🚀 Strategy Runner")
@@ -757,7 +809,8 @@ def main():
         data_file=args.data,
         predictions_file=args.pred,
         output_dir=args.out,
-        symbol=args.symbol
+        symbol=args.symbol,
+        only_tech=args.only_tech
     )
     
     # Create realistic strategy combinations (not stupid multiplication!)

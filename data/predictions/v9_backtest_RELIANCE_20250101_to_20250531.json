@@ -1,0 +1,1388 @@
+{
+  "2025-01-01": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-01",
+    "last_actual": {
+      "Open": 1208.0,
+      "High": 1219.1,
+      "Low": 1206.15,
+      "Close": 1215.45
+    },
+    "predicted": {
+      "Open": 1217.2513630273245,
+      "High": 1247.3719443355665,
+      "Low": 1201.8213019904351,
+      "Close": 1215.466107266056
+    },
+    "confidence": 0.514289379119873,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-02": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-02",
+    "last_actual": {
+      "Open": 1214.85,
+      "High": 1226.3,
+      "Low": 1211.6,
+      "Close": 1221.25
+    },
+    "predicted": {
+      "Open": 1223.1248892185977,
+      "High": 1253.487762058794,
+      "Low": 1207.6407008306328,
+      "Close": 1221.3119701460319
+    },
+    "confidence": 0.51414555311203,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-03": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-03",
+    "last_actual": {
+      "Open": 1221.25,
+      "High": 1244.45,
+      "Low": 1220.0,
+      "Close": 1241.8
+    },
+    "predicted": {
+      "Open": 1243.67253304646,
+      "High": 1274.5448615110777,
+      "Low": 1227.9908304524765,
+      "Close": 1241.9091511711918
+    },
+    "confidence": 0.5139967501163483,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-04": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-04",
+    "last_actual": {
+      "Open": 1243.9,
+      "High": 1262.05,
+      "Low": 1235.5,
+      "Close": 1251.15
+    },
+    "predicted": {
+      "Open": 1252.9264303580808,
+      "High": 1284.059454854319,
+      "Low": 1237.0954597889386,
+      "Close": 1251.0670144765854
+    },
+    "confidence": 0.5139435529708862,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-08": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-08",
+    "last_actual": {
+      "Open": 1222.0,
+      "High": 1244.5,
+      "Low": 1221.25,
+      "Close": 1240.85
+    },
+    "predicted": {
+      "Open": 1242.4629703402275,
+      "High": 1273.6061572091203,
+      "Low": 1226.8381588939333,
+      "Close": 1240.6862928464084
+    },
+    "confidence": 0.5139801800251007,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-09": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-09",
+    "last_actual": {
+      "Open": 1249.0,
+      "High": 1271.05,
+      "Low": 1245.35,
+      "Close": 1265.5
+    },
+    "predicted": {
+      "Open": 1267.1974500261713,
+      "High": 1299.1562300103712,
+      "Low": 1251.3474292277538,
+      "Close": 1265.5239182639984
+    },
+    "confidence": 0.5140633583068848,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-10": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-10",
+    "last_actual": {
+      "Open": 1267.0,
+      "High": 1269.75,
+      "Low": 1248.05,
+      "Close": 1254.75
+    },
+    "predicted": {
+      "Open": 1256.290715604904,
+      "High": 1288.17465855191,
+      "Low": 1240.6025929779807,
+      "Close": 1254.7153781694783
+    },
+    "confidence": 0.5141704976558685,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-11": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-11",
+    "last_actual": {
+      "Open": 1253.85,
+      "High": 1256.75,
+      "Low": 1236.0,
+      "Close": 1241.9
+    },
+    "predicted": {
+      "Open": 1243.4773370679181,
+      "High": 1275.1292803530039,
+      "Low": 1227.918381734497,
+      "Close": 1241.979414634674
+    },
+    "confidence": 0.5142741203308105,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-15": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-15",
+    "last_actual": {
+      "Open": 1244.1,
+      "High": 1253.35,
+      "Low": 1227.25,
+      "Close": 1238.75
+    },
+    "predicted": {
+      "Open": 1240.3056228469359,
+      "High": 1272.0753922345957,
+      "Low": 1224.846035836686,
+      "Close": 1238.9967013224561
+    },
+    "confidence": 0.5143414735794067,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-16": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-16",
+    "last_actual": {
+      "Open": 1244.95,
+      "High": 1257.0,
+      "Low": 1241.85,
+      "Close": 1252.2
+    },
+    "predicted": {
+      "Open": 1253.8327964809573,
+      "High": 1286.0565745630947,
+      "Low": 1238.195922717196,
+      "Close": 1252.6302414588822
+    },
+    "confidence": 0.5144063830375671,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-17": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-17",
+    "last_actual": {
+      "Open": 1258.9,
+      "High": 1275.0,
+      "Low": 1251.3,
+      "Close": 1266.45
+    },
+    "predicted": {
+      "Open": 1268.0312523267576,
+      "High": 1300.7515039361688,
+      "Low": 1252.2496942438038,
+      "Close": 1267.0124491259842
+    },
+    "confidence": 0.5144885182380676,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-18": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-18",
+    "last_actual": {
+      "Open": 1322.25,
+      "High": 1326.0,
+      "Low": 1285.0,
+      "Close": 1302.35
+    },
+    "predicted": {
+      "Open": 1304.10565587601,
+      "High": 1337.8990339437419,
+      "Low": 1287.8667372228701,
+      "Close": 1303.2721269709332
+    },
+    "confidence": 0.5145754814147949,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-22": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-22",
+    "last_actual": {
+      "Open": 1310.5,
+      "High": 1313.0,
+      "Low": 1270.2,
+      "Close": 1273.7
+    },
+    "predicted": {
+      "Open": 1275.3914307659484,
+      "High": 1308.5637817718325,
+      "Low": 1259.5610701792411,
+      "Close": 1274.7681607564773
+    },
+    "confidence": 0.5146539509296417,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-23": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-23",
+    "last_actual": {
+      "Open": 1278.3,
+      "High": 1282.9,
+      "Low": 1268.7,
+      "Close": 1277.1
+    },
+    "predicted": {
+      "Open": 1278.8225001153469,
+      "High": 1312.1979595098992,
+      "Low": 1262.918348069761,
+      "Close": 1278.2407595554928
+    },
+    "confidence": 0.5147164165973663,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-24": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-24",
+    "last_actual": {
+      "Open": 1270.0,
+      "High": 1277.35,
+      "Low": 1261.6,
+      "Close": 1263.65
+    },
+    "predicted": {
+      "Open": 1265.2743419385597,
+      "High": 1298.4471942159093,
+      "Low": 1249.5540034494577,
+      "Close": 1264.8136738012308
+    },
+    "confidence": 0.5147826075553894,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-25": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-25",
+    "last_actual": {
+      "Open": 1266.0,
+      "High": 1273.0,
+      "Low": 1243.5,
+      "Close": 1246.3
+    },
+    "predicted": {
+      "Open": 1247.9706331828165,
+      "High": 1280.924170097081,
+      "Low": 1232.4429980063699,
+      "Close": 1247.6285180595924
+    },
+    "confidence": 0.5148906707763672,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-29": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-29",
+    "last_actual": {
+      "Open": 1238.0,
+      "High": 1244.75,
+      "Low": 1218.5,
+      "Close": 1234.4
+    },
+    "predicted": {
+      "Open": 1236.0392344817624,
+      "High": 1268.774540092218,
+      "Low": 1220.670703572794,
+      "Close": 1235.8509837945626
+    },
+    "confidence": 0.514960765838623,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-30": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-30",
+    "last_actual": {
+      "Open": 1236.0,
+      "High": 1242.75,
+      "Low": 1228.05,
+      "Close": 1235.5
+    },
+    "predicted": {
+      "Open": 1237.133698124555,
+      "High": 1270.0283154455126,
+      "Low": 1221.7345328326373,
+      "Close": 1236.9508303288649
+    },
+    "confidence": 0.5150498151779175,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-01-31": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-01-31",
+    "last_actual": {
+      "Open": 1235.55,
+      "High": 1257.0,
+      "Low": 1232.4,
+      "Close": 1253.05
+    },
+    "predicted": {
+      "Open": 1254.64452208148,
+      "High": 1288.1162542672298,
+      "Low": 1238.9482781305196,
+      "Close": 1254.4953619914072
+    },
+    "confidence": 0.5150697827339172,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-01": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-01",
+    "last_actual": {
+      "Open": 1255.85,
+      "High": 1267.0,
+      "Low": 1249.0,
+      "Close": 1265.1
+    },
+    "predicted": {
+      "Open": 1266.7881826199762,
+      "High": 1300.6090992547336,
+      "Low": 1250.8032691834137,
+      "Close": 1266.6323090529468
+    },
+    "confidence": 0.5150762796401978,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-02": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-02",
+    "last_actual": {
+      "Open": 1265.1,
+      "High": 1270.55,
+      "Low": 1241.0,
+      "Close": 1264.6
+    },
+    "predicted": {
+      "Open": 1266.2886831368264,
+      "High": 1300.1547744387449,
+      "Low": 1250.2175171663303,
+      "Close": 1266.1643904377386
+    },
+    "confidence": 0.5151388645172119,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-05": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-05",
+    "last_actual": {
+      "Open": 1248.05,
+      "High": 1288.8,
+      "Low": 1246.6,
+      "Close": 1285.2
+    },
+    "predicted": {
+      "Open": 1286.8635470037673,
+      "High": 1321.3413223540479,
+      "Low": 1270.402641669922,
+      "Close": 1286.7054426889254
+    },
+    "confidence": 0.515171229839325,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-06": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-06",
+    "last_actual": {
+      "Open": 1282.65,
+      "High": 1290.5,
+      "Low": 1276.7,
+      "Close": 1278.2
+    },
+    "predicted": {
+      "Open": 1279.795494340597,
+      "High": 1314.2130330125958,
+      "Low": 1263.3071355558354,
+      "Close": 1279.6385895401752
+    },
+    "confidence": 0.5152440071105957,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-07": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-07",
+    "last_actual": {
+      "Open": 1273.7,
+      "High": 1288.0,
+      "Low": 1270.35,
+      "Close": 1281.55
+    },
+    "predicted": {
+      "Open": 1283.2815107236593,
+      "High": 1317.7794848011144,
+      "Low": 1266.6140581722286,
+      "Close": 1283.0864360716685
+    },
+    "confidence": 0.5153066515922546,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-08": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-08",
+    "last_actual": {
+      "Open": 1276.15,
+      "High": 1283.7,
+      "Low": 1262.0,
+      "Close": 1266.7
+    },
+    "predicted": {
+      "Open": 1268.3606254433416,
+      "High": 1302.4952860755143,
+      "Low": 1251.832492198354,
+      "Close": 1268.1614481382337
+    },
+    "confidence": 0.5153306722640991,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-12": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-12",
+    "last_actual": {
+      "Open": 1264.55,
+      "High": 1264.55,
+      "Low": 1230.1,
+      "Close": 1234.85
+    },
+    "predicted": {
+      "Open": 1236.4748009683628,
+      "High": 1269.8409399504253,
+      "Low": 1220.2933374074378,
+      "Close": 1236.2161521928065
+    },
+    "confidence": 0.5153748095035553,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-13": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-13",
+    "last_actual": {
+      "Open": 1219.45,
+      "High": 1226.9,
+      "Low": 1193.35,
+      "Close": 1216.55
+    },
+    "predicted": {
+      "Open": 1218.1261910657988,
+      "High": 1251.1739083619805,
+      "Low": 1202.1156432784715,
+      "Close": 1217.8431605818512
+    },
+    "confidence": 0.5154463350772858,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-14": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-14",
+    "last_actual": {
+      "Open": 1217.05,
+      "High": 1228.0,
+      "Low": 1212.0,
+      "Close": 1216.1
+    },
+    "predicted": {
+      "Open": 1217.832983345369,
+      "High": 1250.9024809245304,
+      "Low": 1201.7487217431028,
+      "Close": 1217.5572714246232
+    },
+    "confidence": 0.5155024230480194,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-15": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-15",
+    "last_actual": {
+      "Open": 1219.0,
+      "High": 1224.0,
+      "Low": 1205.45,
+      "Close": 1217.25
+    },
+    "predicted": {
+      "Open": 1219.0136298467405,
+      "High": 1252.1273129471565,
+      "Low": 1202.8502957219455,
+      "Close": 1218.7303466952055
+    },
+    "confidence": 0.5155050456523895,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-19": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-19",
+    "last_actual": {
+      "Open": 1224.85,
+      "High": 1229.9,
+      "Low": 1216.1,
+      "Close": 1225.4
+    },
+    "predicted": {
+      "Open": 1227.1737038837218,
+      "High": 1260.5871775796613,
+      "Low": 1210.8258299931506,
+      "Close": 1226.8212291556542
+    },
+    "confidence": 0.5155055820941925,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-20": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-20",
+    "last_actual": {
+      "Open": 1219.5,
+      "High": 1232.75,
+      "Low": 1217.55,
+      "Close": 1227.45
+    },
+    "predicted": {
+      "Open": 1229.3695814833798,
+      "High": 1262.813574735696,
+      "Low": 1212.8926390084312,
+      "Close": 1228.9531035654845
+    },
+    "confidence": 0.5154848098754883,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-21": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-21",
+    "last_actual": {
+      "Open": 1223.95,
+      "High": 1239.35,
+      "Low": 1222.0,
+      "Close": 1233.0
+    },
+    "predicted": {
+      "Open": 1234.910458048107,
+      "High": 1268.5388315549085,
+      "Low": 1218.2623794221963,
+      "Close": 1234.3850123034274
+    },
+    "confidence": 0.5154291689395905,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-22": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-22",
+    "last_actual": {
+      "Open": 1228.7,
+      "High": 1240.0,
+      "Low": 1222.15,
+      "Close": 1228.15
+    },
+    "predicted": {
+      "Open": 1230.1820579953824,
+      "High": 1263.6232568158734,
+      "Low": 1213.52012749511,
+      "Close": 1229.569993320392
+    },
+    "confidence": 0.5153516829013824,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-02-26": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-02-26",
+    "last_actual": {
+      "Open": 1211.0,
+      "High": 1221.0,
+      "Low": 1201.5,
+      "Close": 1204.0
+    },
+    "predicted": {
+      "Open": 1206.013202845119,
+      "High": 1238.827793159025,
+      "Low": 1189.7152928951052,
+      "Close": 1205.4435301299613
+    },
+    "confidence": 0.5152776539325714,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-01": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-01",
+    "last_actual": {
+      "Open": 1202.0,
+      "High": 1217.35,
+      "Low": 1193.3,
+      "Close": 1200.1
+    },
+    "predicted": {
+      "Open": 1202.1101292917656,
+      "High": 1234.8955228273358,
+      "Low": 1185.8454605191914,
+      "Close": 1201.4193985633788
+    },
+    "confidence": 0.5152484774589539,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-05": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-05",
+    "last_actual": {
+      "Open": 1162.2,
+      "High": 1174.0,
+      "Low": 1159.55,
+      "Close": 1161.9
+    },
+    "predicted": {
+      "Open": 1163.853976941001,
+      "High": 1195.5173839241465,
+      "Low": 1148.0671706250864,
+      "Close": 1163.0844845076513
+    },
+    "confidence": 0.5152149796485901,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-06": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-06",
+    "last_actual": {
+      "Open": 1161.0,
+      "High": 1183.0,
+      "Low": 1157.0,
+      "Close": 1175.6
+    },
+    "predicted": {
+      "Open": 1177.7196554145157,
+      "High": 1209.6838272686098,
+      "Low": 1161.6981151734267,
+      "Close": 1176.8218214434096
+    },
+    "confidence": 0.5151987969875336,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-07": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-07",
+    "last_actual": {
+      "Open": 1197.0,
+      "High": 1213.95,
+      "Low": 1185.15,
+      "Close": 1209.6
+    },
+    "predicted": {
+      "Open": 1211.7618344660368,
+      "High": 1244.6129522371693,
+      "Low": 1195.2504777392012,
+      "Close": 1210.742307075941
+    },
+    "confidence": 0.5151682198047638,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-08": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-08",
+    "last_actual": {
+      "Open": 1216.0,
+      "High": 1254.8,
+      "Low": 1212.0,
+      "Close": 1249.8
+    },
+    "predicted": {
+      "Open": 1252.0119248410572,
+      "High": 1285.9774853379754,
+      "Low": 1234.946859332364,
+      "Close": 1250.7857806574302
+    },
+    "confidence": 0.5151514708995819,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-12": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-12",
+    "last_actual": {
+      "Open": 1240.0,
+      "High": 1249.5,
+      "Low": 1229.75,
+      "Close": 1247.3
+    },
+    "predicted": {
+      "Open": 1249.4026009224153,
+      "High": 1283.2905843097108,
+      "Low": 1232.3731481809002,
+      "Close": 1248.209518792542
+    },
+    "confidence": 0.5152043104171753,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-13": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-13",
+    "last_actual": {
+      "Open": 1258.0,
+      "High": 1263.0,
+      "Low": 1244.0,
+      "Close": 1257.05
+    },
+    "predicted": {
+      "Open": 1259.2214661048981,
+      "High": 1293.4456330228768,
+      "Low": 1242.0033820031863,
+      "Close": 1257.992489174203
+    },
+    "confidence": 0.5153420567512512,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-14": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-14",
+    "last_actual": {
+      "Open": 1260.05,
+      "High": 1264.15,
+      "Low": 1243.85,
+      "Close": 1247.9
+    },
+    "predicted": {
+      "Open": 1249.9797805523167,
+      "High": 1283.9559091050253,
+      "Low": 1232.9020644009574,
+      "Close": 1248.8079348403796
+    },
+    "confidence": 0.5154614746570587,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-19": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-19",
+    "last_actual": {
+      "Open": 1244.7,
+      "High": 1248.35,
+      "Low": 1235.0,
+      "Close": 1238.8
+    },
+    "predicted": {
+      "Open": 1240.878457037418,
+      "High": 1274.5960256906553,
+      "Low": 1223.8629781030338,
+      "Close": 1239.6208141157003
+    },
+    "confidence": 0.5155728757381439,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-20": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-20",
+    "last_actual": {
+      "Open": 1241.05,
+      "High": 1253.25,
+      "Low": 1238.8,
+      "Close": 1247.15
+    },
+    "predicted": {
+      "Open": 1249.2092290991995,
+      "High": 1283.154985337234,
+      "Low": 1232.0401806432906,
+      "Close": 1247.9870480340755
+    },
+    "confidence": 0.5157153308391571,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-21": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-21",
+    "last_actual": {
+      "Open": 1251.85,
+      "High": 1273.0,
+      "Low": 1250.05,
+      "Close": 1269.15
+    },
+    "predicted": {
+      "Open": 1271.3913394433978,
+      "High": 1305.9197436825489,
+      "Low": 1253.8011749978382,
+      "Close": 1270.1307338925412
+    },
+    "confidence": 0.5158748030662537,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-22": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-22",
+    "last_actual": {
+      "Open": 1275.0,
+      "High": 1281.0,
+      "Low": 1270.1,
+      "Close": 1276.35
+    },
+    "predicted": {
+      "Open": 1278.6023049835492,
+      "High": 1313.3046172432755,
+      "Low": 1260.9082645735748,
+      "Close": 1277.4357644109964
+    },
+    "confidence": 0.5159961581230164,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-26": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-26",
+    "last_actual": {
+      "Open": 1307.7,
+      "High": 1307.7,
+      "Low": 1282.6,
+      "Close": 1285.45
+    },
+    "predicted": {
+      "Open": 1287.820096205075,
+      "High": 1322.808540839294,
+      "Low": 1269.9769071086794,
+      "Close": 1286.7124235462038
+    },
+    "confidence": 0.5161705017089844,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-27": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-27",
+    "last_actual": {
+      "Open": 1291.0,
+      "High": 1293.8,
+      "Low": 1268.75,
+      "Close": 1273.05
+    },
+    "predicted": {
+      "Open": 1275.4189314240325,
+      "High": 1310.0854709681157,
+      "Low": 1257.716660580297,
+      "Close": 1274.3620816032353
+    },
+    "confidence": 0.5163384079933167,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-28": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-28",
+    "last_actual": {
+      "Open": 1278.15,
+      "High": 1285.0,
+      "Low": 1271.3,
+      "Close": 1278.2
+    },
+    "predicted": {
+      "Open": 1280.610183528613,
+      "High": 1315.4017222849238,
+      "Low": 1262.7608811875423,
+      "Close": 1279.4821652830797
+    },
+    "confidence": 0.5165018737316132,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-03-29": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-03-29",
+    "last_actual": {
+      "Open": 1280.0,
+      "High": 1295.75,
+      "Low": 1269.0,
+      "Close": 1275.1
+    },
+    "predicted": {
+      "Open": 1277.490802979281,
+      "High": 1312.191234878631,
+      "Low": 1259.5842468555002,
+      "Close": 1276.3279721182712
+    },
+    "confidence": 0.5166565775871277,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-03": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-03",
+    "last_actual": {
+      "Open": 1247.55,
+      "High": 1255.55,
+      "Low": 1243.9,
+      "Close": 1251.15
+    },
+    "predicted": {
+      "Open": 1253.6486185859783,
+      "High": 1287.5903090503084,
+      "Low": 1236.0070582190651,
+      "Close": 1252.4564450981738
+    },
+    "confidence": 0.5166640281677246,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-04": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-04",
+    "last_actual": {
+      "Open": 1233.05,
+      "High": 1251.8,
+      "Low": 1233.05,
+      "Close": 1248.7
+    },
+    "predicted": {
+      "Open": 1251.2499060159882,
+      "High": 1285.036908907878,
+      "Low": 1233.6102444272296,
+      "Close": 1250.039955157126
+    },
+    "confidence": 0.5165888071060181,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-05": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-05",
+    "last_actual": {
+      "Open": 1241.1,
+      "High": 1245.45,
+      "Low": 1193.15,
+      "Close": 1204.7
+    },
+    "predicted": {
+      "Open": 1207.1746826065464,
+      "High": 1239.59433339943,
+      "Low": 1190.0645756884364,
+      "Close": 1205.8353283859753
+    },
+    "confidence": 0.5165132284164429,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-09": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-09",
+    "last_actual": {
+      "Open": 1172.0,
+      "High": 1196.6,
+      "Low": 1163.3,
+      "Close": 1182.2
+    },
+    "predicted": {
+      "Open": 1184.6735355463347,
+      "High": 1216.5311104111186,
+      "Low": 1167.9002869555964,
+      "Close": 1183.3694629082934
+    },
+    "confidence": 0.5164427757263184,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-10": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-10",
+    "last_actual": {
+      "Open": 1169.5,
+      "High": 1189.8,
+      "Low": 1168.0,
+      "Close": 1185.35
+    },
+    "predicted": {
+      "Open": 1188.0809858721475,
+      "High": 1219.9899466708916,
+      "Low": 1171.1991177139776,
+      "Close": 1186.7181489375284
+    },
+    "confidence": 0.5163722932338715,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-17": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-17",
+    "last_actual": {
+      "Open": 1234.1,
+      "High": 1240.9,
+      "Low": 1229.0,
+      "Close": 1239.3
+    },
+    "predicted": {
+      "Open": 1242.2191437823399,
+      "High": 1275.5713097855617,
+      "Low": 1224.6297952770215,
+      "Close": 1240.8570415645581
+    },
+    "confidence": 0.5162588357925415,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-18": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-18",
+    "last_actual": {
+      "Open": 1240.2,
+      "High": 1280.2,
+      "Low": 1227.6,
+      "Close": 1274.5
+    },
+    "predicted": {
+      "Open": 1277.4641718799248,
+      "High": 1311.6901014957111,
+      "Low": 1259.3288717884425,
+      "Close": 1275.9501536138291
+    },
+    "confidence": 0.5161836743354797,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-23": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-23",
+    "last_actual": {
+      "Open": 1300.0,
+      "High": 1303.9,
+      "Low": 1286.3,
+      "Close": 1291.2
+    },
+    "predicted": {
+      "Open": 1294.05750484501,
+      "High": 1328.7419494621636,
+      "Low": 1275.6723489895203,
+      "Close": 1292.4380092954993
+    },
+    "confidence": 0.5161688327789307,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-24": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-24",
+    "last_actual": {
+      "Open": 1297.0,
+      "High": 1306.0,
+      "Low": 1285.4,
+      "Close": 1300.0
+    },
+    "predicted": {
+      "Open": 1302.9679976636544,
+      "High": 1337.9533093591695,
+      "Low": 1284.363178605182,
+      "Close": 1301.2367305682073
+    },
+    "confidence": 0.5161552727222443,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-25": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-25",
+    "last_actual": {
+      "Open": 1292.4,
+      "High": 1304.5,
+      "Low": 1290.3,
+      "Close": 1301.6
+    },
+    "predicted": {
+      "Open": 1304.5472464608415,
+      "High": 1339.6066302226732,
+      "Low": 1285.9250767677804,
+      "Close": 1302.8556795200986
+    },
+    "confidence": 0.5160887837409973,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-26": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-26",
+    "last_actual": {
+      "Open": 1303.5,
+      "High": 1325.2,
+      "Low": 1288.1,
+      "Close": 1300.4
+    },
+    "predicted": {
+      "Open": 1303.3737857865608,
+      "High": 1338.3323864632503,
+      "Low": 1284.6517930381956,
+      "Close": 1301.5721901302127
+    },
+    "confidence": 0.5161091983318329,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-04-30": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-04-30",
+    "last_actual": {
+      "Open": 1371.0,
+      "High": 1410.9,
+      "Low": 1370.0,
+      "Close": 1399.7
+    },
+    "predicted": {
+      "Open": 1402.8378207860646,
+      "High": 1440.5037093964556,
+      "Low": 1382.731521218066,
+      "Close": 1400.9620567033844
+    },
+    "confidence": 0.5160954892635345,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-01": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-01",
+    "last_actual": {
+      "Open": 1402.0,
+      "High": 1412.4,
+      "Low": 1369.0,
+      "Close": 1405.0
+    },
+    "predicted": {
+      "Open": 1408.237368076807,
+      "High": 1446.303337709951,
+      "Low": 1388.0655276327043,
+      "Close": 1406.2978175295611
+    },
+    "confidence": 0.5161164104938507,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-07": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-07",
+    "last_actual": {
+      "Open": 1431.0,
+      "High": 1432.0,
+      "Low": 1410.6,
+      "Close": 1420.9
+    },
+    "predicted": {
+      "Open": 1424.1394589711585,
+      "High": 1462.6836069722126,
+      "Low": 1403.7850073851707,
+      "Close": 1422.240536075989
+    },
+    "confidence": 0.5160987377166748,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-08": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-08",
+    "last_actual": {
+      "Open": 1420.9,
+      "High": 1424.4,
+      "Low": 1402.7,
+      "Close": 1406.0
+    },
+    "predicted": {
+      "Open": 1409.1254796320572,
+      "High": 1447.3671920617057,
+      "Low": 1389.0128736966403,
+      "Close": 1407.189409850525
+    },
+    "confidence": 0.5161440670490265,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-09": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-09",
+    "last_actual": {
+      "Open": 1404.1,
+      "High": 1420.8,
+      "Low": 1398.0,
+      "Close": 1407.0
+    },
+    "predicted": {
+      "Open": 1410.002063904656,
+      "High": 1448.39967346333,
+      "Low": 1389.9201569573875,
+      "Close": 1408.07120675623
+    },
+    "confidence": 0.5161977708339691,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-10": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-10",
+    "last_actual": {
+      "Open": 1385.5,
+      "High": 1394.8,
+      "Low": 1374.5,
+      "Close": 1377.2
+    },
+    "predicted": {
+      "Open": 1380.2176215741038,
+      "High": 1417.8741749814549,
+      "Low": 1360.5502550285678,
+      "Close": 1378.29748493443
+    },
+    "confidence": 0.5162370800971985,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-14": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-14",
+    "last_actual": {
+      "Open": 1433.5,
+      "High": 1447.7,
+      "Low": 1412.4,
+      "Close": 1415.7
+    },
+    "predicted": {
+      "Open": 1418.83024120028,
+      "High": 1457.4808037597463,
+      "Low": 1398.6153628938557,
+      "Close": 1416.8987468484233
+    },
+    "confidence": 0.5162087678909302,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-15": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-15",
+    "last_actual": {
+      "Open": 1420.0,
+      "High": 1429.9,
+      "Low": 1415.5,
+      "Close": 1424.4
+    },
+    "predicted": {
+      "Open": 1427.5996571614273,
+      "High": 1466.4822693071096,
+      "Low": 1407.192423895775,
+      "Close": 1425.5234025382895
+    },
+    "confidence": 0.5161708295345306,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-16": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-16",
+    "last_actual": {
+      "Open": 1425.0,
+      "High": 1461.4,
+      "Low": 1412.7,
+      "Close": 1454.2
+    },
+    "predicted": {
+      "Open": 1457.3838034968464,
+      "High": 1497.2352690711814,
+      "Low": 1436.448400840416,
+      "Close": 1454.9885062722476
+    },
+    "confidence": 0.5163699686527252,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-17": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-17",
+    "last_actual": {
+      "Open": 1453.2,
+      "High": 1461.0,
+      "Low": 1447.3,
+      "Close": 1456.4
+    },
+    "predicted": {
+      "Open": 1459.582605516524,
+      "High": 1499.573047468256,
+      "Low": 1438.4765162242732,
+      "Close": 1457.0764517492057
+    },
+    "confidence": 0.5163928270339966,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-21": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-21",
+    "last_actual": {
+      "Open": 1438.2,
+      "High": 1445.0,
+      "Low": 1421.8,
+      "Close": 1424.6
+    },
+    "predicted": {
+      "Open": 1427.8135947696078,
+      "High": 1466.9261005479493,
+      "Low": 1407.011667903314,
+      "Close": 1425.1731323880394
+    },
+    "confidence": 0.5163779854774475,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-22": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-22",
+    "last_actual": {
+      "Open": 1423.9,
+      "High": 1436.2,
+      "Low": 1418.1,
+      "Close": 1429.2
+    },
+    "predicted": {
+      "Open": 1432.4787668040208,
+      "High": 1471.6860178965437,
+      "Low": 1411.5549334058232,
+      "Close": 1429.7895301096405
+    },
+    "confidence": 0.5163387060165405,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-23": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-23",
+    "last_actual": {
+      "Open": 1421.2,
+      "High": 1423.8,
+      "Low": 1396.9,
+      "Close": 1409.4
+    },
+    "predicted": {
+      "Open": 1412.5824561815637,
+      "High": 1451.2339624446884,
+      "Low": 1391.8862239651212,
+      "Close": 1409.7291025980521
+    },
+    "confidence": 0.5163312554359436,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-24": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-24",
+    "last_actual": {
+      "Open": 1406.6,
+      "High": 1433.8,
+      "Low": 1406.6,
+      "Close": 1426.8
+    },
+    "predicted": {
+      "Open": 1429.8783762648845,
+      "High": 1469.1677152057314,
+      "Low": 1408.8519096209093,
+      "Close": 1426.848069774103
+    },
+    "confidence": 0.5164170563220978,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-28": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-28",
+    "last_actual": {
+      "Open": 1426.1,
+      "High": 1437.0,
+      "Low": 1413.9,
+      "Close": 1422.1
+    },
+    "predicted": {
+      "Open": 1425.1921619966856,
+      "High": 1464.4767720175023,
+      "Low": 1404.1599427083233,
+      "Close": 1422.097632355441
+    },
+    "confidence": 0.5164766609668732,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  },
+  "2025-05-29": {
+    "symbol": "RELIANCE",
+    "prediction_date": "2025-05-29",
+    "last_actual": {
+      "Open": 1420.1,
+      "High": 1422.6,
+      "Low": 1410.7,
+      "Close": 1412.9
+    },
+    "predicted": {
+      "Open": 1415.9968794412985,
+      "High": 1455.1502197388181,
+      "Low": 1395.0253651025962,
+      "Close": 1412.8611935877582
+    },
+    "confidence": 0.5165749192237854,
+    "model_version": "v9_lstm_attn_ohlc_RELIANCE"
+  }
+}

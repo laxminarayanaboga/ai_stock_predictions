@@ -1,0 +1,73 @@
+symbols:
+  - RELIANCE
+  - TCS
+  - NTPC
+  - TATAMOTORS
+
+data:
+  base_dir: data/training_data
+  timezone: Asia/Kolkata
+
+features:
+  use_intraday_aggregates: true
+  use_calendar_features: true
+  use_regime_features: true
+  rsi_period: 14
+  atr_period: 14
+  ma_windows: [5, 10, 20, 50, 200]
+
+sequence:
+  lookback: 48
+  target: [open_abs, dh_rel, dl_rel, dc_rel]
+
+model:
+  type: lstm_attn
+  hidden_size: 160
+  num_layers: 2
+  dropout: 0.2
+  attn_dim: 64
+
+train:
+  batch_size: 64
+  epochs: 80
+  lr: 0.0004
+  weight_decay: 0.0002
+  grad_clip: 1.0
+  huber_delta: 1.0
+  loss_weights:
+    regression: 1.0
+    direction: 0.5
+  direction_loss:
+    type: focal
+    alpha: 0.25
+    gamma: 2.0
+  class_weights: [1.0, 1.0]  # optional class weights for direction CE (bull, bear)
+  scheduler:
+    type: cosine
+    T_max: 80
+    eta_min: 0.00005
+  early_stopping:
+    enabled: true
+    patience: 8
+    min_delta: 0.00005
+  calibration:
+    temperature_scaling: true
+    max_iters: 300
+    lr: 0.01
+
+walk_forward:
+  train_years: 3
+  val_months: 6
+  step_months: 3
+
+output:
+  checkpoints_dir: models/versions/v9/checkpoints
+  artifacts_dir: models/versions/v9/artifacts
+  predictions_dir: data/predictions
+  run_name: v9_lstm_attn_ohlc
+
+postprocess:
+  clamp_atr_mult: 3.5
+  enforce_bounds: true
+  confidence_threshold: 0.7
+  confidence_bins: [[0.0, 0.55], [0.55, 0.65], [0.65, 0.75], [0.75, 0.80], [0.80, 0.85], [0.85, 0.90], [0.90, 0.95], [0.95, 1.01]]

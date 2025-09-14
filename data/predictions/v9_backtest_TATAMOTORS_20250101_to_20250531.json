@@ -1,0 +1,1388 @@
+{
+  "2025-01-01": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-01",
+    "last_actual": {
+      "Open": 733.65,
+      "High": 743.4,
+      "Low": 732.75,
+      "Close": 740.15
+    },
+    "predicted": {
+      "Open": 737.8919532174355,
+      "High": 761.5397105382599,
+      "Low": 727.6984229852424,
+      "Close": 761.5397105382599
+    },
+    "confidence": 0.5077105760574341,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-02": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-02",
+    "last_actual": {
+      "Open": 740.45,
+      "High": 751.1,
+      "Low": 736.0,
+      "Close": 749.25
+    },
+    "predicted": {
+      "Open": 746.7393528133398,
+      "High": 770.6507157229091,
+      "Low": 736.3466001966203,
+      "Close": 770.6507157229091
+    },
+    "confidence": 0.5077865123748779,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-03": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-03",
+    "last_actual": {
+      "Open": 759.3,
+      "High": 767.35,
+      "Low": 749.35,
+      "Close": 765.05
+    },
+    "predicted": {
+      "Open": 762.2690018960463,
+      "High": 786.5746126621145,
+      "Low": 751.6184643572745,
+      "Close": 786.5746126621145
+    },
+    "confidence": 0.507845938205719,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-04": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-04",
+    "last_actual": {
+      "Open": 768.0,
+      "High": 800.6,
+      "Low": 761.45,
+      "Close": 790.4
+    },
+    "predicted": {
+      "Open": 787.3269785356516,
+      "High": 812.3708100072913,
+      "Low": 776.2925920793159,
+      "Close": 812.3708100072913
+    },
+    "confidence": 0.5078810453414917,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-08": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-08",
+    "last_actual": {
+      "Open": 776.0,
+      "High": 796.95,
+      "Low": 772.5,
+      "Close": 793.25
+    },
+    "predicted": {
+      "Open": 790.1044245298253,
+      "High": 815.2283797184211,
+      "Low": 778.9800442560395,
+      "Close": 815.2283797184211
+    },
+    "confidence": 0.5078093707561493,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-09": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-09",
+    "last_actual": {
+      "Open": 792.6,
+      "High": 797.0,
+      "Low": 781.65,
+      "Close": 794.95
+    },
+    "predicted": {
+      "Open": 791.8141807587665,
+      "High": 816.882382069697,
+      "Low": 780.5820014900215,
+      "Close": 816.882382069697
+    },
+    "confidence": 0.5076397061347961,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-10": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-10",
+    "last_actual": {
+      "Open": 800.0,
+      "High": 810.0,
+      "Low": 769.45,
+      "Close": 780.1
+    },
+    "predicted": {
+      "Open": 776.926304200243,
+      "High": 801.4657953071153,
+      "Low": 765.8069723095565,
+      "Close": 801.4657953071153
+    },
+    "confidence": 0.5075267851352692,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-11": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-11",
+    "last_actual": {
+      "Open": 780.05,
+      "High": 787.95,
+      "Low": 766.8,
+      "Close": 774.65
+    },
+    "predicted": {
+      "Open": 771.3989982164784,
+      "High": 795.7557208759101,
+      "Low": 760.2389386475622,
+      "Close": 795.7557208759101
+    },
+    "confidence": 0.507379561662674,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-15": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-15",
+    "last_actual": {
+      "Open": 751.5,
+      "High": 779.0,
+      "Low": 751.5,
+      "Close": 770.5
+    },
+    "predicted": {
+      "Open": 767.0736379086738,
+      "High": 791.370486315778,
+      "Low": 755.8816051305787,
+      "Close": 791.370486315778
+    },
+    "confidence": 0.507262796163559,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-16": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-16",
+    "last_actual": {
+      "Open": 771.0,
+      "High": 785.0,
+      "Low": 756.05,
+      "Close": 763.6
+    },
+    "predicted": {
+      "Open": 760.2263929408184,
+      "High": 784.513332874494,
+      "Low": 749.018905356727,
+      "Close": 784.513332874494
+    },
+    "confidence": 0.5070632100105286,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-17": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-17",
+    "last_actual": {
+      "Open": 769.9,
+      "High": 781.0,
+      "Low": 767.35,
+      "Close": 774.35
+    },
+    "predicted": {
+      "Open": 770.83370796541,
+      "High": 795.7120629122478,
+      "Low": 759.3752212791848,
+      "Close": 795.7120629122478
+    },
+    "confidence": 0.5069182515144348,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-18": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-18",
+    "last_actual": {
+      "Open": 773.9,
+      "High": 785.5,
+      "Low": 772.25,
+      "Close": 779.75
+    },
+    "predicted": {
+      "Open": 776.0957842723583,
+      "High": 801.1789186081269,
+      "Low": 764.3827629838897,
+      "Close": 801.1789186081269
+    },
+    "confidence": 0.5067118108272552,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-22": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-22",
+    "last_actual": {
+      "Open": 775.0,
+      "High": 786.65,
+      "Low": 758.4,
+      "Close": 760.75
+    },
+    "predicted": {
+      "Open": 757.0423522284254,
+      "High": 781.5098414966499,
+      "Low": 745.5468219980071,
+      "Close": 781.5098414966499
+    },
+    "confidence": 0.5065537095069885,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-23": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-23",
+    "last_actual": {
+      "Open": 764.15,
+      "High": 765.45,
+      "Low": 731.0,
+      "Close": 742.75
+    },
+    "predicted": {
+      "Open": 739.0772422401933,
+      "High": 763.0688415420259,
+      "Low": 727.7385836908668,
+      "Close": 763.0688415420259
+    },
+    "confidence": 0.5063877403736115,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-24": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-24",
+    "last_actual": {
+      "Open": 742.75,
+      "High": 759.7,
+      "Low": 739.8,
+      "Close": 752.5
+    },
+    "predicted": {
+      "Open": 748.5733749927022,
+      "High": 773.025359560171,
+      "Low": 736.9883329424507,
+      "Close": 773.025359560171
+    },
+    "confidence": 0.5063338875770569,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-25": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-25",
+    "last_actual": {
+      "Open": 750.05,
+      "High": 754.15,
+      "Low": 732.2,
+      "Close": 734.1
+    },
+    "predicted": {
+      "Open": 730.0564298344714,
+      "High": 753.8820167247111,
+      "Low": 718.5644782051476,
+      "Close": 753.8820167247111
+    },
+    "confidence": 0.5063997209072113,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-29": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-29",
+    "last_actual": {
+      "Open": 716.5,
+      "High": 740.85,
+      "Low": 707.5,
+      "Close": 728.25
+    },
+    "predicted": {
+      "Open": 724.0003706552088,
+      "High": 747.5613719696835,
+      "Low": 712.460521333093,
+      "Close": 747.5613719696835
+    },
+    "confidence": 0.5064654052257538,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-30": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-30",
+    "last_actual": {
+      "Open": 731.5,
+      "High": 755.0,
+      "Low": 726.55,
+      "Close": 752.5
+    },
+    "predicted": {
+      "Open": 747.9521413031034,
+      "High": 772.2963298596844,
+      "Low": 735.892601335428,
+      "Close": 772.2963298596844
+    },
+    "confidence": 0.5066089928150177,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-01-31": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-01-31",
+    "last_actual": {
+      "Open": 709.0,
+      "High": 710.7,
+      "Low": 683.2,
+      "Close": 696.85
+    },
+    "predicted": {
+      "Open": 692.3903680317811,
+      "High": 714.988086418718,
+      "Low": 681.147647586368,
+      "Close": 714.988086418718
+    },
+    "confidence": 0.5066468715667725,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-01": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-01",
+    "last_actual": {
+      "Open": 706.0,
+      "High": 717.0,
+      "Low": 696.45,
+      "Close": 716.1
+    },
+    "predicted": {
+      "Open": 711.3077817200485,
+      "High": 734.4758938031196,
+      "Low": 699.6346835437987,
+      "Close": 734.4758938031196
+    },
+    "confidence": 0.5067203342914581,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-02": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-02",
+    "last_actual": {
+      "Open": 719.5,
+      "High": 724.75,
+      "Low": 700.9,
+      "Close": 706.55
+    },
+    "predicted": {
+      "Open": 701.6048447746432,
+      "High": 724.4299711643212,
+      "Low": 689.9909621436848,
+      "Close": 724.4299711643212
+    },
+    "confidence": 0.5067605376243591,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-05": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-05",
+    "last_actual": {
+      "Open": 696.3,
+      "High": 713.35,
+      "Low": 693.75,
+      "Close": 710.55
+    },
+    "predicted": {
+      "Open": 705.3805331562377,
+      "High": 728.4128757477189,
+      "Low": 693.57384993837,
+      "Close": 728.4128757477189
+    },
+    "confidence": 0.5068994462490082,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-06": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-06",
+    "last_actual": {
+      "Open": 711.0,
+      "High": 725.45,
+      "Low": 710.7,
+      "Close": 717.05
+    },
+    "predicted": {
+      "Open": 711.6212084120809,
+      "High": 734.905098675144,
+      "Low": 699.5905724993659,
+      "Close": 734.905098675144
+    },
+    "confidence": 0.5069242417812347,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-07": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-07",
+    "last_actual": {
+      "Open": 723.0,
+      "High": 723.4,
+      "Low": 708.15,
+      "Close": 709.65
+    },
+    "predicted": {
+      "Open": 704.0052779210463,
+      "High": 727.0348868974415,
+      "Low": 691.9831198763814,
+      "Close": 727.0348868974415
+    },
+    "confidence": 0.5069949924945831,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-08": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-08",
+    "last_actual": {
+      "Open": 711.0,
+      "High": 715.95,
+      "Low": 703.1,
+      "Close": 706.75
+    },
+    "predicted": {
+      "Open": 700.9109598184004,
+      "High": 723.770754358404,
+      "Low": 688.8896098180282,
+      "Close": 723.770754358404
+    },
+    "confidence": 0.5070294737815857,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-12": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-12",
+    "last_actual": {
+      "Open": 696.0,
+      "High": 697.0,
+      "Low": 675.1,
+      "Close": 677.75
+    },
+    "predicted": {
+      "Open": 672.0661774797481,
+      "High": 693.9544579864285,
+      "Low": 660.4920260293409,
+      "Close": 693.9544579864285
+    },
+    "confidence": 0.5070897936820984,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-13": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-13",
+    "last_actual": {
+      "Open": 680.0,
+      "High": 687.55,
+      "Low": 667.05,
+      "Close": 684.35
+    },
+    "predicted": {
+      "Open": 678.4711612185149,
+      "High": 700.5877039234177,
+      "Low": 666.7850062168175,
+      "Close": 700.5877039234177
+    },
+    "confidence": 0.5070713758468628,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-14": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-14",
+    "last_actual": {
+      "Open": 684.35,
+      "High": 693.15,
+      "Low": 679.35,
+      "Close": 683.85
+    },
+    "predicted": {
+      "Open": 677.8238346398723,
+      "High": 699.8701442394256,
+      "Low": 666.0675769781706,
+      "Close": 699.8701442394256
+    },
+    "confidence": 0.5070776641368866,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-15": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-15",
+    "last_actual": {
+      "Open": 685.95,
+      "High": 690.95,
+      "Low": 669.15,
+      "Close": 680.65
+    },
+    "predicted": {
+      "Open": 674.5069627955829,
+      "High": 696.3497436355004,
+      "Low": 662.7851211295167,
+      "Close": 696.3497436355004
+    },
+    "confidence": 0.5070254504680634,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-19": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-19",
+    "last_actual": {
+      "Open": 686.6,
+      "High": 687.95,
+      "Low": 672.15,
+      "Close": 682.4
+    },
+    "predicted": {
+      "Open": 676.0820287070649,
+      "High": 698.0014028332191,
+      "Low": 664.2349444503625,
+      "Close": 698.0014028332191
+    },
+    "confidence": 0.5069809257984161,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-20": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-20",
+    "last_actual": {
+      "Open": 681.75,
+      "High": 690.95,
+      "Low": 675.05,
+      "Close": 681.0
+    },
+    "predicted": {
+      "Open": 674.5612366516725,
+      "High": 696.4462705298502,
+      "Low": 662.6517065096434,
+      "Close": 696.4462705298502
+    },
+    "confidence": 0.5070270299911499,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-21": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-21",
+    "last_actual": {
+      "Open": 680.0,
+      "High": 692.85,
+      "Low": 675.0,
+      "Close": 689.8
+    },
+    "predicted": {
+      "Open": 683.13815369402,
+      "High": 705.391678786899,
+      "Low": 671.038639658542,
+      "Close": 705.391678786899
+    },
+    "confidence": 0.5070615112781525,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-22": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-22",
+    "last_actual": {
+      "Open": 686.0,
+      "High": 690.0,
+      "Low": 671.1,
+      "Close": 673.2
+    },
+    "predicted": {
+      "Open": 666.5729145240695,
+      "High": 688.2742318772829,
+      "Low": 654.6991311584934,
+      "Close": 688.2742318772829
+    },
+    "confidence": 0.5070965588092804,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-02-26": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-02-26",
+    "last_actual": {
+      "Open": 667.75,
+      "High": 672.5,
+      "Low": 660.0,
+      "Close": 661.6
+    },
+    "predicted": {
+      "Open": 654.9517846964482,
+      "High": 676.2269266661535,
+      "Low": 643.2232113131997,
+      "Close": 676.2269266661535
+    },
+    "confidence": 0.5070902109146118,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-01": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-01",
+    "last_actual": {
+      "Open": 645.0,
+      "High": 645.0,
+      "Low": 618.45,
+      "Close": 620.65
+    },
+    "predicted": {
+      "Open": 614.3334730452581,
+      "High": 634.2740706947886,
+      "Low": 603.2720745159158,
+      "Close": 634.2740706947886
+    },
+    "confidence": 0.5071287751197815,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-05": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-05",
+    "last_actual": {
+      "Open": 613.45,
+      "High": 629.15,
+      "Low": 613.0,
+      "Close": 619.2
+    },
+    "predicted": {
+      "Open": 612.74604656257,
+      "High": 632.7149901137184,
+      "Low": 601.6603219110204,
+      "Close": 632.7149901137184
+    },
+    "confidence": 0.5072018802165985,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-06": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-06",
+    "last_actual": {
+      "Open": 619.0,
+      "High": 641.6,
+      "Low": 618.6,
+      "Close": 640.8
+    },
+    "predicted": {
+      "Open": 634.0237248864069,
+      "High": 654.6749082747799,
+      "Low": 622.5237575114197,
+      "Close": 654.6749082747799
+    },
+    "confidence": 0.5072486102581024,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-07": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-07",
+    "last_actual": {
+      "Open": 653.25,
+      "High": 655.95,
+      "Low": 635.6,
+      "Close": 639.65
+    },
+    "predicted": {
+      "Open": 632.8154072876998,
+      "High": 653.3479843477044,
+      "Low": 621.3408686500594,
+      "Close": 653.3479843477044
+    },
+    "confidence": 0.5073220431804657,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-08": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-08",
+    "last_actual": {
+      "Open": 640.0,
+      "High": 651.5,
+      "Low": 635.0,
+      "Close": 648.3
+    },
+    "predicted": {
+      "Open": 641.3687524126756,
+      "High": 662.0761812875264,
+      "Low": 629.7229236703811,
+      "Close": 662.0761812875264
+    },
+    "confidence": 0.5074420273303986,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-12": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-12",
+    "last_actual": {
+      "Open": 640.0,
+      "High": 651.15,
+      "Low": 638.45,
+      "Close": 648.05
+    },
+    "predicted": {
+      "Open": 641.1559208342333,
+      "High": 661.8026446886001,
+      "Low": 629.5434453517714,
+      "Close": 661.8026446886001
+    },
+    "confidence": 0.5074947476387024,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-13": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-13",
+    "last_actual": {
+      "Open": 654.5,
+      "High": 671.9,
+      "Low": 652.25,
+      "Close": 668.3
+    },
+    "predicted": {
+      "Open": 661.2252964429538,
+      "High": 682.4233333457933,
+      "Low": 649.2877423347783,
+      "Close": 682.4233333457933
+    },
+    "confidence": 0.5075501501560211,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-14": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-14",
+    "last_actual": {
+      "Open": 670.65,
+      "High": 671.85,
+      "Low": 649.6,
+      "Close": 655.5
+    },
+    "predicted": {
+      "Open": 648.6351237069466,
+      "High": 669.2887519773186,
+      "Low": 637.0309962007946,
+      "Close": 669.2887519773186
+    },
+    "confidence": 0.5076175332069397,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-19": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-19",
+    "last_actual": {
+      "Open": 665.0,
+      "High": 681.7,
+      "Low": 663.9,
+      "Close": 680.05
+    },
+    "predicted": {
+      "Open": 673.0553853598603,
+      "High": 694.3256567568823,
+      "Low": 661.0788152619543,
+      "Close": 694.3256567568823
+    },
+    "confidence": 0.5077310502529144,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-20": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-20",
+    "last_actual": {
+      "Open": 685.4,
+      "High": 685.75,
+      "Low": 678.55,
+      "Close": 682.25
+    },
+    "predicted": {
+      "Open": 675.3859109798068,
+      "High": 696.6548748523919,
+      "Low": 663.4771406508545,
+      "Close": 696.6548748523919
+    },
+    "confidence": 0.507837325334549,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-21": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-21",
+    "last_actual": {
+      "Open": 685.0,
+      "High": 692.7,
+      "Low": 679.0,
+      "Close": 690.05
+    },
+    "predicted": {
+      "Open": 683.2532371519467,
+      "High": 704.6002126289329,
+      "Low": 671.2729550377528,
+      "Close": 704.6002126289329
+    },
+    "confidence": 0.5079264342784882,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-22": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-22",
+    "last_actual": {
+      "Open": 693.0,
+      "High": 705.0,
+      "Low": 688.55,
+      "Close": 702.95
+    },
+    "predicted": {
+      "Open": 696.198976634907,
+      "High": 717.7729959867811,
+      "Low": 684.0963662394965,
+      "Close": 717.7729959867811
+    },
+    "confidence": 0.50800821185112,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-26": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-26",
+    "last_actual": {
+      "Open": 719.0,
+      "High": 723.05,
+      "Low": 706.35,
+      "Close": 710.3
+    },
+    "predicted": {
+      "Open": 703.7380259577308,
+      "High": 725.4410793151302,
+      "Low": 691.5970953497285,
+      "Close": 725.4410793151302
+    },
+    "confidence": 0.5080828368663788,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-27": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-27",
+    "last_actual": {
+      "Open": 710.3,
+      "High": 717.85,
+      "Low": 707.0,
+      "Close": 708.25
+    },
+    "predicted": {
+      "Open": 701.8716961512691,
+      "High": 723.4864827514224,
+      "Low": 689.7832779024553,
+      "Close": 723.4864827514224
+    },
+    "confidence": 0.5081455111503601,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-28": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-28",
+    "last_actual": {
+      "Open": 668.0,
+      "High": 676.6,
+      "Low": 661.1,
+      "Close": 668.55
+    },
+    "predicted": {
+      "Open": 662.6147622101125,
+      "High": 682.9961756632218,
+      "Low": 651.1952431049324,
+      "Close": 682.9961756632218
+    },
+    "confidence": 0.5082783997058868,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-03-29": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-03-29",
+    "last_actual": {
+      "Open": 671.85,
+      "High": 684.95,
+      "Low": 669.3,
+      "Close": 674.45
+    },
+    "predicted": {
+      "Open": 668.4736899535118,
+      "High": 689.0514192120389,
+      "Low": 656.9063010908237,
+      "Close": 689.0514192120389
+    },
+    "confidence": 0.5083925127983093,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-03": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-03",
+    "last_actual": {
+      "Open": 674.95,
+      "High": 675.35,
+      "Low": 662.1,
+      "Close": 671.9
+    },
+    "predicted": {
+      "Open": 665.8253009403289,
+      "High": 686.3201951096262,
+      "Low": 654.2238974307804,
+      "Close": 686.3201951096262
+    },
+    "confidence": 0.5083830654621124,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-04": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-04",
+    "last_actual": {
+      "Open": 660.0,
+      "High": 669.0,
+      "Low": 652.5,
+      "Close": 653.95
+    },
+    "predicted": {
+      "Open": 647.8193137327178,
+      "High": 667.7604179348066,
+      "Low": 636.4679581406018,
+      "Close": 667.7604179348066
+    },
+    "confidence": 0.5084073841571808,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-05": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-05",
+    "last_actual": {
+      "Open": 650.0,
+      "High": 650.0,
+      "Low": 610.0,
+      "Close": 613.85
+    },
+    "predicted": {
+      "Open": 607.9541182036344,
+      "High": 626.7129554315145,
+      "Low": 597.2503842755273,
+      "Close": 626.7129554315145
+    },
+    "confidence": 0.5084590315818787,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-09": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-09",
+    "last_actual": {
+      "Open": 591.2,
+      "High": 606.6,
+      "Low": 584.2,
+      "Close": 588.85
+    },
+    "predicted": {
+      "Open": 583.0258627752798,
+      "High": 601.0634912713646,
+      "Low": 572.6578114261429,
+      "Close": 601.0634912713646
+    },
+    "confidence": 0.508480966091156,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-10": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-10",
+    "last_actual": {
+      "Open": 588.0,
+      "High": 594.9,
+      "Low": 581.05,
+      "Close": 582.9
+    },
+    "predicted": {
+      "Open": 576.9686149415738,
+      "High": 594.8239480885538,
+      "Low": 566.6419552970442,
+      "Close": 594.8239480885538
+    },
+    "confidence": 0.50851970911026,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-17": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-17",
+    "last_actual": {
+      "Open": 625.0,
+      "High": 625.0,
+      "Low": 613.6,
+      "Close": 616.05
+    },
+    "predicted": {
+      "Open": 609.6690338182932,
+      "High": 628.5222383341018,
+      "Low": 598.7678958877171,
+      "Close": 628.5222383341018
+    },
+    "confidence": 0.5085920691490173,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-18": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-18",
+    "last_actual": {
+      "Open": 616.05,
+      "High": 627.0,
+      "Low": 608.25,
+      "Close": 621.55
+    },
+    "predicted": {
+      "Open": 615.1591352749772,
+      "High": 634.017807300444,
+      "Low": 604.1822612536757,
+      "Close": 634.017807300444
+    },
+    "confidence": 0.5085934102535248,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-23": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-23",
+    "last_actual": {
+      "Open": 630.25,
+      "High": 633.95,
+      "Low": 626.2,
+      "Close": 630.85
+    },
+    "predicted": {
+      "Open": 624.3593665932033,
+      "High": 643.4808346804189,
+      "Low": 613.2117261569113,
+      "Close": 643.4808346804189
+    },
+    "confidence": 0.5086629092693329,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-24": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-24",
+    "last_actual": {
+      "Open": 635.95,
+      "High": 661.5,
+      "Low": 633.35,
+      "Close": 659.9
+    },
+    "predicted": {
+      "Open": 653.1696835460733,
+      "High": 673.096523025207,
+      "Low": 641.5693319587594,
+      "Close": 673.096523025207
+    },
+    "confidence": 0.5086619555950165,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-25": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-25",
+    "last_actual": {
+      "Open": 660.1,
+      "High": 671.0,
+      "Low": 660.1,
+      "Close": 668.35
+    },
+    "predicted": {
+      "Open": 661.5479090129206,
+      "High": 681.6568121553518,
+      "Low": 649.8573840401846,
+      "Close": 681.6568121553518
+    },
+    "confidence": 0.5087421834468842,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-26": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-26",
+    "last_actual": {
+      "Open": 668.35,
+      "High": 673.0,
+      "Low": 651.5,
+      "Close": 655.25
+    },
+    "predicted": {
+      "Open": 648.6826799415285,
+      "High": 668.3560851958732,
+      "Low": 637.2545809654747,
+      "Close": 668.3560851958732
+    },
+    "confidence": 0.5088874697685242,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-04-30": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-04-30",
+    "last_actual": {
+      "Open": 671.45,
+      "High": 682.9,
+      "Low": 661.6,
+      "Close": 665.6
+    },
+    "predicted": {
+      "Open": 659.056810988579,
+      "High": 679.1128428025966,
+      "Low": 647.5287875706804,
+      "Close": 679.1128428025966
+    },
+    "confidence": 0.508995771408081,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-01": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-01",
+    "last_actual": {
+      "Open": 667.0,
+      "High": 667.0,
+      "Low": 641.1,
+      "Close": 644.25
+    },
+    "predicted": {
+      "Open": 638.0472718697274,
+      "High": 657.4528414645943,
+      "Low": 626.9713895717521,
+      "Close": 657.4528414645943
+    },
+    "confidence": 0.5090857446193695,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-07": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-07",
+    "last_actual": {
+      "Open": 661.55,
+      "High": 663.2,
+      "Low": 645.5,
+      "Close": 648.2
+    },
+    "predicted": {
+      "Open": 642.0130215452457,
+      "High": 661.5189317585146,
+      "Low": 630.9232407485595,
+      "Close": 661.5189317585146
+    },
+    "confidence": 0.5091744959354401,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-08": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-08",
+    "last_actual": {
+      "Open": 642.0,
+      "High": 682.5,
+      "Low": 641.15,
+      "Close": 680.3
+    },
+    "predicted": {
+      "Open": 673.9032644126512,
+      "High": 694.4015057241229,
+      "Low": 662.3122153447908,
+      "Close": 694.4015057241229
+    },
+    "confidence": 0.5092710554599762,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-09": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-09",
+    "last_actual": {
+      "Open": 700.0,
+      "High": 704.5,
+      "Low": 677.2,
+      "Close": 682.85
+    },
+    "predicted": {
+      "Open": 676.4816370608319,
+      "High": 697.1801260883815,
+      "Low": 664.8590954094598,
+      "Close": 697.1801260883815
+    },
+    "confidence": 0.50930055975914,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-10": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-10",
+    "last_actual": {
+      "Open": 667.5,
+      "High": 711.0,
+      "Low": 666.0,
+      "Close": 708.5
+    },
+    "predicted": {
+      "Open": 701.8352142956574,
+      "High": 723.380970155697,
+      "Low": 689.766761089315,
+      "Close": 723.380970155697
+    },
+    "confidence": 0.5094054043292999,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-14": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-14",
+    "last_actual": {
+      "Open": 720.8,
+      "High": 726.0,
+      "Low": 703.25,
+      "Close": 707.7
+    },
+    "predicted": {
+      "Open": 701.0335280068275,
+      "High": 722.5288383226741,
+      "Low": 689.0478044087594,
+      "Close": 722.5288383226741
+    },
+    "confidence": 0.5094748437404633,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-15": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-15",
+    "last_actual": {
+      "Open": 690.0,
+      "High": 708.0,
+      "Low": 686.0,
+      "Close": 698.95
+    },
+    "predicted": {
+      "Open": 692.3613627185998,
+      "High": 713.6475191057218,
+      "Low": 680.4848465025622,
+      "Close": 713.6475191057218
+    },
+    "confidence": 0.5095154047012329,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-16": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-16",
+    "last_actual": {
+      "Open": 698.75,
+      "High": 729.8,
+      "Low": 696.15,
+      "Close": 728.1
+    },
+    "predicted": {
+      "Open": 721.5766675166452,
+      "High": 743.939835742696,
+      "Low": 709.2994704187164,
+      "Close": 743.939835742696
+    },
+    "confidence": 0.5095789730548859,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-17": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-17",
+    "last_actual": {
+      "Open": 730.0,
+      "High": 742.0,
+      "Low": 725.55,
+      "Close": 730.7
+    },
+    "predicted": {
+      "Open": 724.0565577306836,
+      "High": 746.6252377615224,
+      "Low": 711.6622013679383,
+      "Close": 746.6252377615224
+    },
+    "confidence": 0.509624570608139,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-21": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-21",
+    "last_actual": {
+      "Open": 730.0,
+      "High": 737.75,
+      "Low": 717.0,
+      "Close": 718.9
+    },
+    "predicted": {
+      "Open": 712.2240510282231,
+      "High": 734.5339063756314,
+      "Low": 699.9376421809557,
+      "Close": 734.5339063756314
+    },
+    "confidence": 0.5097282230854034,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-22": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-22",
+    "last_actual": {
+      "Open": 719.0,
+      "High": 729.5,
+      "Low": 718.0,
+      "Close": 726.8
+    },
+    "predicted": {
+      "Open": 719.9012536799653,
+      "High": 742.5150294980269,
+      "Low": 707.4411001442506,
+      "Close": 742.5150294980269
+    },
+    "confidence": 0.5098105370998383,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-23": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-23",
+    "last_actual": {
+      "Open": 725.0,
+      "High": 725.0,
+      "Low": 710.65,
+      "Close": 717.45
+    },
+    "predicted": {
+      "Open": 710.592678847988,
+      "High": 733.0043704205757,
+      "Low": 698.2140310557783,
+      "Close": 733.0043704205757
+    },
+    "confidence": 0.5099421143531799,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-24": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-24",
+    "last_actual": {
+      "Open": 718.75,
+      "High": 721.8,
+      "Low": 715.0,
+      "Close": 718.25
+    },
+    "predicted": {
+      "Open": 711.3278183514485,
+      "High": 733.9775027671784,
+      "Low": 698.8734504958427,
+      "Close": 733.9775027671784
+    },
+    "confidence": 0.5100130438804626,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-28": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-28",
+    "last_actual": {
+      "Open": 729.0,
+      "High": 729.35,
+      "Low": 715.2,
+      "Close": 716.45
+    },
+    "predicted": {
+      "Open": 709.4395403287567,
+      "High": 732.1467037786963,
+      "Low": 696.8711434301064,
+      "Close": 732.1467037786963
+    },
+    "confidence": 0.510090559720993,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  },
+  "2025-05-29": {
+    "symbol": "TATAMOTORS",
+    "prediction_date": "2025-05-29",
+    "last_actual": {
+      "Open": 720.0,
+      "High": 722.0,
+      "Low": 716.2,
+      "Close": 717.95
+    },
+    "predicted": {
+      "Open": 710.7685852161542,
+      "High": 733.542250464498,
+      "Low": 698.1039571585679,
+      "Close": 733.542250464498
+    },
+    "confidence": 0.5101329982280731,
+    "model_version": "v9_lstm_attn_ohlc_TATAMOTORS"
+  }
+}

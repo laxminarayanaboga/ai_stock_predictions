@@ -52,6 +52,18 @@
         "direction_accuracy": ">0.60",
         "target": "Maintain V5 performance with more recent data"
       }
+    },
+    "v9_lstm_attn": {
+      "path": "models/versions/v9",
+      "creation_date": "2025-09-14T00:00:00.000000",
+      "description": "V9: LSTM with attention pooling, early stopping and cosine LR scheduler. Pipeline compatible with v8; non-breaking side-by-side version.",
+      "status": "experimental",
+      "improvements": [
+        "Attention pooling to emphasize informative timesteps",
+        "Early stopping to reduce overfitting",
+        "Optional cosine annealing LR scheduler",
+        "Class-weighted direction loss support"
+      ]
     }
   },
   "current_version": "v6_enhanced",

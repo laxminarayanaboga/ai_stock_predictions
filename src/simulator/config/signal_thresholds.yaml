@@ -1,0 +1,27 @@
+# Global and per-symbol overrides for signal generators
+# Keys match create_signal_generators() names, values are __init__ kwargs
+
+global:
+  tech_confirm_standard:
+    min_expected_change_pct: 0.0045
+  openclose_standard:
+    min_change_pct: 0.004
+
+per_symbol:
+  RELIANCE:
+    tech_confirm_ultra:
+      min_expected_change_pct: 0.0012
+      min_confidence: 0.47
+    tech_confirm_standard:
+      min_expected_change_pct: 0.003
+    openclose_ultra:
+      min_change_pct: 0.0012
+  TCS:
+    tech_confirm_standard:
+      min_expected_change_pct: 0.004
+  NTPC:
+    tech_confirm_standard:
+      min_expected_change_pct: 0.0035
+  TATAMOTORS:
+    tech_confirm_standard:
+      min_expected_change_pct: 0.004

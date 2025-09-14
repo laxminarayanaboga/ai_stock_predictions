@@ -511,9 +511,12 @@ class TechnicalConfirmationSignalGenerator(BaseSignalGenerator):
     """
     
     def __init__(self, min_confidence: float = 0.6, lookback_periods: int = 5,
-                 validate_open_price: bool = False, max_open_error_pct: float = 0.03):
+                 validate_open_price: bool = False, max_open_error_pct: float = 0.03,
+                 min_expected_change_pct: float = 0.005):
         super().__init__("TechnicalConfirmation", min_confidence, validate_open_price, max_open_error_pct)
         self.lookback_periods = lookback_periods
+        # Minimum absolute expected close-vs-open change to consider a trade (e.g. 0.005 = 0.5%)
+        self.min_expected_change_pct = min_expected_change_pct
     
     def _calculate_simple_technicals(self, market_data: pd.DataFrame, current_date: str) -> Dict[str, float]:
         """Calculate simple technical indicators"""
@@ -580,7 +583,7 @@ class TechnicalConfirmationSignalGenerator(BaseSignalGenerator):
         expected_change_pct = (predicted_close - predicted_open) / predicted_open
         
         # Skip if change is too small
-        if abs(expected_change_pct) < 0.005:
+        if abs(expected_change_pct) < self.min_expected_change_pct:
             return None
         
         # Calculate technical indicators
@@ -629,10 +632,13 @@ class AdaptivePositionSignalGenerator(BaseSignalGenerator):
     """
     
     def __init__(self, min_confidence: float = 0.5, base_position_size: float = 1000,
-                 confidence_multiplier: float = 2.0, validate_open_price: bool = False, max_open_error_pct: float = 0.03):
+                 confidence_multiplier: float = 2.0, validate_open_price: bool = False, max_open_error_pct: float = 0.03,
+                 min_expected_change_pct: float = 0.003):
         super().__init__("AdaptivePosition", min_confidence, validate_open_price, max_open_error_pct)
         self.base_position_size = base_position_size
         self.confidence_multiplier = confidence_multiplier
+        # Minimum absolute expected close-vs-open change to consider a trade
+        self.min_expected_change_pct = min_expected_change_pct
     
     def generate_signal(self, date_str: str, predictions: Dict, market_data: pd.DataFrame) -> Optional[TradingSignal]:
         # Get prediction for this date
@@ -651,7 +657,7 @@ class AdaptivePositionSignalGenerator(BaseSignalGenerator):
         expected_change_pct = (predicted_close - predicted_open) / predicted_open
         
         # Skip if change is too small
-        if abs(expected_change_pct) < 0.003:
+        if abs(expected_change_pct) < self.min_expected_change_pct:
             return None
         
         # Calculate adaptive position size
@@ -683,55 +689,68 @@ class AdaptivePositionSignalGenerator(BaseSignalGenerator):
         )
 
 
-def create_signal_generators() -> Dict[str, BaseSignalGenerator]:
-    """Factory function to create all signal generators"""
-    
+def create_signal_generators(overrides: Dict[str, Dict[str, Any]] | None = None) -> Dict[str, BaseSignalGenerator]:
+    """Factory function to create all signal generators.
+    If overrides is provided, it's a mapping from generator key to a dict of __init__ kwargs
+    that will override default thresholds (e.g., min_confidence, min_change_pct, etc.).
+    """
+    overrides = overrides or {}
+
+    def ov(key: str) -> Dict[str, Any]:
+        return overrides.get(key, {})
+
     generators = {
         # Open-Close strategies with different confidence levels
-        'openclose_conservative': OpenCloseSignalGenerator(min_confidence=0.7, min_change_pct=0.008),
-        'openclose_standard': OpenCloseSignalGenerator(min_confidence=0.6, min_change_pct=0.005),
-        'openclose_aggressive': OpenCloseSignalGenerator(min_confidence=0.5, min_change_pct=0.003),
+        'openclose_conservative': OpenCloseSignalGenerator(min_confidence=ov('openclose_conservative').get('min_confidence', 0.7), min_change_pct=ov('openclose_conservative').get('min_change_pct', 0.008)),
+        'openclose_standard': OpenCloseSignalGenerator(min_confidence=ov('openclose_standard').get('min_confidence', 0.6), min_change_pct=ov('openclose_standard').get('min_change_pct', 0.005)),
+        'openclose_aggressive': OpenCloseSignalGenerator(min_confidence=ov('openclose_aggressive').get('min_confidence', 0.5), min_change_pct=ov('openclose_aggressive').get('min_change_pct', 0.003)),
+    # Ultra-sensitive open-close (for flat prediction regimes)
+    'openclose_ultra': OpenCloseSignalGenerator(min_confidence=ov('openclose_ultra').get('min_confidence', 0.5), min_change_pct=ov('openclose_ultra').get('min_change_pct', 0.0015)),
         
         # High-Low strategies with different parameters
-        'highlow_conservative': HighLowSignalGenerator(min_confidence=0.7, min_hl_spread_pct=0.015),
-        'highlow_standard': HighLowSignalGenerator(min_confidence=0.6, min_hl_spread_pct=0.01),
-        'highlow_aggressive': HighLowSignalGenerator(min_confidence=0.5, min_hl_spread_pct=0.008),
+    'highlow_conservative': HighLowSignalGenerator(min_confidence=ov('highlow_conservative').get('min_confidence', 0.7), min_hl_spread_pct=ov('highlow_conservative').get('min_hl_spread_pct', 0.015)),
+    'highlow_standard': HighLowSignalGenerator(min_confidence=ov('highlow_standard').get('min_confidence', 0.6), min_hl_spread_pct=ov('highlow_standard').get('min_hl_spread_pct', 0.01)),
+    'highlow_aggressive': HighLowSignalGenerator(min_confidence=ov('highlow_aggressive').get('min_confidence', 0.5), min_hl_spread_pct=ov('highlow_aggressive').get('min_hl_spread_pct', 0.008)),
         
         # Mean reversion strategies
-        'meanrev_conservative': MeanReversionSignalGenerator(min_confidence=0.8, extreme_threshold_pct=0.025),
-        'meanrev_standard': MeanReversionSignalGenerator(min_confidence=0.7, extreme_threshold_pct=0.02),
+    'meanrev_conservative': MeanReversionSignalGenerator(min_confidence=ov('meanrev_conservative').get('min_confidence', 0.8), extreme_threshold_pct=ov('meanrev_conservative').get('extreme_threshold_pct', 0.025)),
+    'meanrev_standard': MeanReversionSignalGenerator(min_confidence=ov('meanrev_standard').get('min_confidence', 0.7), extreme_threshold_pct=ov('meanrev_standard').get('extreme_threshold_pct', 0.02)),
         
         # Breakout strategies
-        'breakout_conservative': BreakoutSignalGenerator(min_confidence=0.85, min_range_pct=0.03),
-        'breakout_standard': BreakoutSignalGenerator(min_confidence=0.8, min_range_pct=0.025),
+    'breakout_conservative': BreakoutSignalGenerator(min_confidence=ov('breakout_conservative').get('min_confidence', 0.85), min_range_pct=ov('breakout_conservative').get('min_range_pct', 0.03)),
+    'breakout_standard': BreakoutSignalGenerator(min_confidence=ov('breakout_standard').get('min_confidence', 0.8), min_range_pct=ov('breakout_standard').get('min_range_pct', 0.025)),
         
         # NEW: Gap-based strategies
-        'gap_conservative': GapStrategySignalGenerator(min_confidence=0.7, max_gap_deviation_pct=0.015),
-        'gap_standard': GapStrategySignalGenerator(min_confidence=0.6, max_gap_deviation_pct=0.02),
-        'gap_relaxed': GapStrategySignalGenerator(min_confidence=0.5, max_gap_deviation_pct=0.03),
+    'gap_conservative': GapStrategySignalGenerator(min_confidence=ov('gap_conservative').get('min_confidence', 0.7), max_gap_deviation_pct=ov('gap_conservative').get('max_gap_deviation_pct', 0.015)),
+    'gap_standard': GapStrategySignalGenerator(min_confidence=ov('gap_standard').get('min_confidence', 0.6), max_gap_deviation_pct=ov('gap_standard').get('max_gap_deviation_pct', 0.02)),
+    'gap_relaxed': GapStrategySignalGenerator(min_confidence=ov('gap_relaxed').get('min_confidence', 0.5), max_gap_deviation_pct=ov('gap_relaxed').get('max_gap_deviation_pct', 0.03)),
         
         # NEW: Bracket order strategies
-        'bracket_conservative': BracketOrderSignalGenerator(min_confidence=0.7, min_bracket_size_pct=0.02),
-        'bracket_standard': BracketOrderSignalGenerator(min_confidence=0.6, min_bracket_size_pct=0.015),
-        'bracket_aggressive': BracketOrderSignalGenerator(min_confidence=0.5, min_bracket_size_pct=0.01),
+    'bracket_conservative': BracketOrderSignalGenerator(min_confidence=ov('bracket_conservative').get('min_confidence', 0.7), min_bracket_size_pct=ov('bracket_conservative').get('min_bracket_size_pct', 0.02)),
+    'bracket_standard': BracketOrderSignalGenerator(min_confidence=ov('bracket_standard').get('min_confidence', 0.6), min_bracket_size_pct=ov('bracket_standard').get('min_bracket_size_pct', 0.015)),
+    'bracket_aggressive': BracketOrderSignalGenerator(min_confidence=ov('bracket_aggressive').get('min_confidence', 0.5), min_bracket_size_pct=ov('bracket_aggressive').get('min_bracket_size_pct', 0.01)),
         
-        # NEW: Technical confirmation strategies
-        'tech_confirm_conservative': TechnicalConfirmationSignalGenerator(min_confidence=0.7, lookback_periods=7),
-        'tech_confirm_standard': TechnicalConfirmationSignalGenerator(min_confidence=0.6, lookback_periods=5),
-        'tech_confirm_responsive': TechnicalConfirmationSignalGenerator(min_confidence=0.5, lookback_periods=3),
+    # NEW: Technical confirmation strategies
+    'tech_confirm_conservative': TechnicalConfirmationSignalGenerator(min_confidence=ov('tech_confirm_conservative').get('min_confidence', 0.7), lookback_periods=ov('tech_confirm_conservative').get('lookback_periods', 7), min_expected_change_pct=ov('tech_confirm_conservative').get('min_expected_change_pct', 0.005)),
+    'tech_confirm_standard': TechnicalConfirmationSignalGenerator(min_confidence=ov('tech_confirm_standard').get('min_confidence', 0.6), lookback_periods=ov('tech_confirm_standard').get('lookback_periods', 5), min_expected_change_pct=ov('tech_confirm_standard').get('min_expected_change_pct', 0.005)),
+    'tech_confirm_responsive': TechnicalConfirmationSignalGenerator(min_confidence=ov('tech_confirm_responsive').get('min_confidence', 0.5), lookback_periods=ov('tech_confirm_responsive').get('lookback_periods', 3), min_expected_change_pct=ov('tech_confirm_responsive').get('min_expected_change_pct', 0.004)),
+    # Ultra-sensitive technical confirmation
+    'tech_confirm_ultra': TechnicalConfirmationSignalGenerator(min_confidence=ov('tech_confirm_ultra').get('min_confidence', 0.48), lookback_periods=ov('tech_confirm_ultra').get('lookback_periods', 3), min_expected_change_pct=ov('tech_confirm_ultra').get('min_expected_change_pct', 0.0015)),
         
-        # NEW: Adaptive position sizing strategies
-        'adaptive_conservative': AdaptivePositionSignalGenerator(min_confidence=0.6, confidence_multiplier=1.5),
-        'adaptive_standard': AdaptivePositionSignalGenerator(min_confidence=0.5, confidence_multiplier=2.0),
-        'adaptive_aggressive': AdaptivePositionSignalGenerator(min_confidence=0.4, confidence_multiplier=3.0),
+    # NEW: Adaptive position sizing strategies
+    'adaptive_conservative': AdaptivePositionSignalGenerator(min_confidence=ov('adaptive_conservative').get('min_confidence', 0.6), confidence_multiplier=ov('adaptive_conservative').get('confidence_multiplier', 1.5), min_expected_change_pct=ov('adaptive_conservative').get('min_expected_change_pct', 0.003)),
+    'adaptive_standard': AdaptivePositionSignalGenerator(min_confidence=ov('adaptive_standard').get('min_confidence', 0.5), confidence_multiplier=ov('adaptive_standard').get('confidence_multiplier', 2.0), min_expected_change_pct=ov('adaptive_standard').get('min_expected_change_pct', 0.003)),
+    'adaptive_aggressive': AdaptivePositionSignalGenerator(min_confidence=ov('adaptive_aggressive').get('min_confidence', 0.4), confidence_multiplier=ov('adaptive_aggressive').get('confidence_multiplier', 3.0), min_expected_change_pct=ov('adaptive_aggressive').get('min_expected_change_pct', 0.0025)),
+    # Ultra-sensitive adaptive
+    'adaptive_ultra': AdaptivePositionSignalGenerator(min_confidence=ov('adaptive_ultra').get('min_confidence', 0.45), confidence_multiplier=ov('adaptive_ultra').get('confidence_multiplier', 2.5), min_expected_change_pct=ov('adaptive_ultra').get('min_expected_change_pct', 0.0015)),
         
         # Realistic trading strategies with open price validation
-        'openclose_realistic': OpenCloseSignalGenerator(min_confidence=0.6, min_change_pct=0.005, 
-                                                       validate_open_price=True, max_open_error_pct=0.03),
-        'openclose_strict_validation': OpenCloseSignalGenerator(min_confidence=0.6, min_change_pct=0.005,
-                                                              validate_open_price=True, max_open_error_pct=0.01),
-        'openclose_relaxed_validation': OpenCloseSignalGenerator(min_confidence=0.6, min_change_pct=0.005,
-                                                               validate_open_price=True, max_open_error_pct=0.05),
+    'openclose_realistic': OpenCloseSignalGenerator(min_confidence=ov('openclose_realistic').get('min_confidence', 0.6), min_change_pct=ov('openclose_realistic').get('min_change_pct', 0.005), 
+                               validate_open_price=ov('openclose_realistic').get('validate_open_price', True), max_open_error_pct=ov('openclose_realistic').get('max_open_error_pct', 0.03)),
+    'openclose_strict_validation': OpenCloseSignalGenerator(min_confidence=ov('openclose_strict_validation').get('min_confidence', 0.6), min_change_pct=ov('openclose_strict_validation').get('min_change_pct', 0.005),
+                                  validate_open_price=ov('openclose_strict_validation').get('validate_open_price', True), max_open_error_pct=ov('openclose_strict_validation').get('max_open_error_pct', 0.01)),
+    'openclose_relaxed_validation': OpenCloseSignalGenerator(min_confidence=ov('openclose_relaxed_validation').get('min_confidence', 0.6), min_change_pct=ov('openclose_relaxed_validation').get('min_change_pct', 0.005),
+                                   validate_open_price=ov('openclose_relaxed_validation').get('validate_open_price', True), max_open_error_pct=ov('openclose_relaxed_validation').get('max_open_error_pct', 0.05)),
     }
     
     return generators
