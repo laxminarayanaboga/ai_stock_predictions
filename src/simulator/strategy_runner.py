@@ -225,7 +225,7 @@ class StrategyRunner:
                 status = "🟢" if result.pnl > 0 else "🔴"
                 trade = result.trade_result
                 print(f"{status} {date_str}: {signal.signal_type} | "
-                      f"₹{trade.entry_price:.2f} → ₹{trade.exit_price:.2f} | "
+                      f"Qty {trade.position_size} @ ₹{trade.entry_price:.2f} → ₹{trade.exit_price:.2f} | "
                       f"PnL: ₹{result.pnl:+.2f} | {trade.exit_reason}")
                 
                 # Print validation info if enabled
@@ -534,6 +534,7 @@ class StrategyRunner:
                 'parameters': {
                     'stop_loss_pct': result.config.parameters.stop_loss_pct,
                     'take_profit_pct': result.config.parameters.take_profit_pct,
+                    'capital_per_trade': getattr(result.config.parameters, 'capital_per_trade', None),
                     'position_size': result.config.parameters.position_size
                 },
                 'performance': {

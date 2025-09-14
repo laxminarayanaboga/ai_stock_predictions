@@ -13,10 +13,16 @@ from .signal_generators import TradingSignal
 
 @dataclass
 class TradingParameters:
-    """Trading execution parameters"""
+    """Trading execution parameters
+    Position sizing supports two modes:
+    - Fixed shares via position_size (legacy)
+    - Capital-based sizing via capital_per_trade (preferred)
+    If capital_per_trade > 0, it takes precedence and position_size is computed at entry.
+    """
     stop_loss_pct: float = 0.01  # 1% stop loss
     take_profit_pct: float = 0.02  # 2% take profit
-    position_size: int = 100  # Number of shares
+    position_size: Optional[int] = None  # Fixed number of shares (legacy)
+    capital_per_trade: Optional[float] = 100000.0  # INR capital to deploy per trade
     entry_time: time = time(9, 15)  # Market open time
     
     # Advanced parameters
@@ -81,7 +87,9 @@ class SignalExecutionResult:
                 'exit_price': self.trade_result.exit_price,
                 'direction': self.trade_result.direction,
                 'exit_reason': self.trade_result.exit_reason,
-                'duration_minutes': self.trade_result.duration_minutes
+                'duration_minutes': self.trade_result.duration_minutes,
+                'position_size': self.trade_result.position_size,
+                'capital_used': round(self.trade_result.entry_price * self.trade_result.position_size, 2)
             })
         
         # Add signal metadata
@@ -139,6 +147,22 @@ class SignalBasedSimulator:
                 execution_status='NO_ENTRY',
                 execution_notes=entry_result['reason']
             )
+        
+        # Sizing: compute position size from capital if provided, else use fixed size
+        entry_price = entry_result['entry_price']
+        dynamic_qty: Optional[int] = None
+        if getattr(parameters, 'capital_per_trade', None):
+            if parameters.capital_per_trade and parameters.capital_per_trade > 0:
+                dynamic_qty = int(parameters.capital_per_trade // entry_price)
+                if dynamic_qty < 1:
+                    return SignalExecutionResult(
+                        signal=signal,
+                        parameters=parameters,
+                        trade_result=None,
+                        execution_status='NO_ENTRY',
+                        execution_notes=f"Insufficient capital {parameters.capital_per_trade:.2f} for entry price {entry_price:.2f}"
+                    )
+                entry_result['position_size'] = dynamic_qty
         
         # Create trade entry
         trade_entry = self._create_trade_entry(signal, parameters, entry_result)
@@ -241,6 +265,12 @@ class SignalBasedSimulator:
         # Determine direction
         direction = 'LONG' if signal.signal_type == 'BUY' else 'SHORT'
         
+        # Determine position size (capital-based sizing takes precedence)
+        position_size = entry_result.get('position_size')
+        if position_size is None:
+            # Fallback to fixed position size from parameters; if None, default to 1 share
+            position_size = parameters.position_size if parameters.position_size is not None else 1
+        
         # Calculate take profit
         if parameters.use_signal_target and signal.target_price:
             # Use signal's target price to calculate TP percentage
@@ -261,7 +291,7 @@ class SignalBasedSimulator:
             direction=direction,
             stop_loss_pct=parameters.stop_loss_pct,
             take_profit_pct=tp_pct,
-            position_size=parameters.position_size
+            position_size=position_size
         )
     
     def execute_multiple_signals(self, signals_with_params: list, day_candles: pd.DataFrame) -> list:
@@ -292,7 +322,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'conservative': TradingParameters(
             stop_loss_pct=0.01,      # 1% SL
             take_profit_pct=0.02,    # 2% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=False
         ),
@@ -301,7 +331,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'aggressive': TradingParameters(
             stop_loss_pct=0.005,     # 0.5% SL
             take_profit_pct=0.03,    # 3% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=False
         ),
@@ -310,7 +340,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'target_based': TradingParameters(
             stop_loss_pct=0.005,     # 0.5% SL
             take_profit_pct=0.02,    # Fallback TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=True,  # Use signal's target price
             wait_for_entry_price=True,
             entry_tolerance_pct=0.003
@@ -320,7 +350,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'tight': TradingParameters(
             stop_loss_pct=0.003,     # 0.3% SL
             take_profit_pct=0.015,   # 1.5% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=True,
             entry_tolerance_pct=0.002
@@ -330,7 +360,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'loose': TradingParameters(
             stop_loss_pct=0.015,     # 1.5% SL
             take_profit_pct=0.04,    # 4% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=False
         ),
@@ -339,7 +369,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'realistic': TradingParameters(
             stop_loss_pct=0.015,     # 1.5% SL
             take_profit_pct=0.03,    # 3% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=False,
             delayed_entry=True,      # Enter at 9:25 instead of 9:15
@@ -350,7 +380,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'realistic_strict': TradingParameters(
             stop_loss_pct=0.015,     # 1.5% SL
             take_profit_pct=0.03,    # 3% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=False,
             delayed_entry=True,      # Enter at 9:25 instead of 9:15
@@ -361,7 +391,7 @@ def create_parameter_sets() -> Dict[str, TradingParameters]:
         'realistic_relaxed': TradingParameters(
             stop_loss_pct=0.015,     # 1.5% SL
             take_profit_pct=0.03,    # 3% TP
-            position_size=100,
+            capital_per_trade=100000.0,
             use_signal_target=False,
             wait_for_entry_price=False,
             delayed_entry=True,      # Enter at 9:25 instead of 9:15

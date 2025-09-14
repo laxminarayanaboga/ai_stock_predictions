@@ -107,6 +107,7 @@ python src/simulator/strategy_simulator.py
 
 # Multi-strategy comparison (recommended)
 python src/simulator/strategy_runner.py
+src/simulator/results/run_TCS_20250915_023815
 ```
 
 ## 🎪 **Usage Examples**
@@ -277,11 +278,7 @@ python src/data/test_fyers_api_limits.py
 
 ### **🏗️ Trading Simulation Commands**
 ```bash
-# 🎯 Run multi-strategy comparison (RECOMMENDED)
-python src/simulator/strategy_runner.py
-
-# Run single strategy simulation
-python src/simulator/strategy_simulator.py
+python src/simulator/strategy_runner.py --data data/raw/RELIANCE_NSE_5min_20171001_to_20250912.csv --pred data/predictions/v9_backtest_RELIANCE_20250101_to_20250531.json --symbol RELIANCE
 ```
 
 ### **🔧 API & Authentication Commands**
