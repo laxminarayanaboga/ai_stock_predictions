@@ -13,6 +13,7 @@ import itertools
 import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
+import argparse
 
 # Add project root to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -87,14 +88,16 @@ class StrategyRunner:
     Orchestrates signal generation, execution, and result analysis
     """
     
-    def __init__(self, data_file: str, predictions_file: str, output_dir: str = None):
+    def __init__(self, data_file: str, predictions_file: str, output_dir: str = None, symbol: str = None):
         self.data_file = Path(data_file)
         self.predictions_file = Path(predictions_file)
+        self.symbol = symbol
         
         # Create timestamped output directory
         if output_dir is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            self.output_dir = Path("src/simulator/results") / f"run_{timestamp}"
+            sym_suffix = f"_{self.symbol}" if self.symbol else ""
+            self.output_dir = Path("src/simulator/results") / f"run{sym_suffix}_{timestamp}"
         else:
             self.output_dir = Path(output_dir)
         
@@ -738,19 +741,23 @@ class StrategyRunner:
 
 
 def main():
-    """Main execution function with proper strategy organization"""
-    
-    # Configuration - Using V7 backtest predictions (Jan-May 2025)
-    DATA_FILE = "data/backtest/RELIANCE/5min/RELIANCE_NSE_2025-01-01_to_2025-05-31.csv"
-    PREDICTIONS_FILE = "data/predictions/backtest_predictions_v7_20250101_to_20250531.json"
-    
-    print("🚀 Strategy Runner - V5 Enhanced Predictions")
+    """Main execution with CLI to run per symbol and custom files"""
+    parser = argparse.ArgumentParser(description="Run strategies on a single symbol.")
+    parser.add_argument("--data", required=True, help="Path to 5min CSV data file for the symbol")
+    parser.add_argument("--pred", required=True, help="Path to predictions JSON for the same period")
+    parser.add_argument("--symbol", required=False, help="Symbol name to tag outputs (e.g., RELIANCE)")
+    parser.add_argument("--out", required=False, help="Optional custom output directory")
+    args = parser.parse_args()
+
+    print("🚀 Strategy Runner")
     print("=" * 80)
-    
+
     # Create runner
     runner = StrategyRunner(
-        data_file=DATA_FILE,
-        predictions_file=PREDICTIONS_FILE
+        data_file=args.data,
+        predictions_file=args.pred,
+        output_dir=args.out,
+        symbol=args.symbol
     )
     
     # Create realistic strategy combinations (not stupid multiplication!)

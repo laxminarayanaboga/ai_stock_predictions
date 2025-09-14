@@ -80,6 +80,23 @@ class BaseSignalGenerator(ABC):
         return is_valid
 
 
+def _normalize_confidence(raw_conf: Any, default: float = 0.5) -> float:
+    """Normalize confidence to [0,1].
+    Accepts inputs in [0,1] (already normalized) or [0,100] (percent).
+    Falls back to default if missing/invalid and clamps to [0,1].
+    """
+    try:
+        c = float(raw_conf)
+    except (TypeError, ValueError):
+        c = default
+    # If value looks like a percentage, scale down
+    if c > 1.0:
+        c = c / 100.0
+    # Clamp to [0,1]
+    c = max(0.0, min(1.0, c))
+    return c
+
+
 class OpenCloseSignalGenerator(BaseSignalGenerator):
     """
     Traditional strategy: Buy if predicted close > predicted open, else sell
@@ -99,7 +116,7 @@ class OpenCloseSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0  # Convert to 0-1 scale
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_close = predicted['Close']
@@ -149,7 +166,7 @@ class HighLowSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0  # Convert to 0-1 scale
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_high = predicted['High']
@@ -216,7 +233,7 @@ class MeanReversionSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_high = predicted['High']
@@ -285,7 +302,7 @@ class BreakoutSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_high = predicted['High']
@@ -353,7 +370,7 @@ class GapStrategySignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_close = predicted['Close']
@@ -439,7 +456,7 @@ class BracketOrderSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_high = predicted['High']
@@ -553,7 +570,7 @@ class TechnicalConfirmationSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_close = predicted['Close']
@@ -625,7 +642,7 @@ class AdaptivePositionSignalGenerator(BaseSignalGenerator):
         
         # Extract prediction data
         predicted = prediction['predicted']
-        confidence = prediction.get('confidence', 0.5) / 100.0
+        confidence = _normalize_confidence(prediction.get('confidence', 0.5))
         
         predicted_open = predicted['Open']
         predicted_close = predicted['Close']

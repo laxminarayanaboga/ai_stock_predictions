@@ -573,9 +573,9 @@ def generate_4_training_csv_files():
 def _run_full_pipeline():
     """Download required ranges and convert to final CSVs.
 
-    Downloads 5-minute and 1-day data for NSE:RELIANCE-EQ from 2017-10-01 to 2025-09-12.
+    Downloads 5-minute and 1-day data for NSE:NTPC-EQ from 2017-10-01 to 2025-09-12.
     """
-    symbol = "NSE:RELIANCE-EQ"
+    symbol = "NSE:NTPC-EQ"
     start_date = "2017-10-01"
     end_date = "2025-09-12"
 
@@ -588,10 +588,10 @@ def _run_full_pipeline():
     save_range_quarters(symbol, '1D', start_date, end_date)
 
     # Convert cached JSON to CSV. For 5-min use our converter, for daily also convert.
-    out_5min = 'data/raw/RELIANCE_NSE_5min_20171001_to_20250912.csv'
+    out_5min = 'data/raw/NTPC_NSE_5min_20171001_to_20250912.csv'
     convert_cached_interval_to_csv(symbol, '5', out_5min, market_filter=True)
 
-    out_daily = 'data/raw/RELIANCE_NSE_daily_20171001_to_20250912.csv'
+    out_daily = 'data/raw/NTPC_NSE_daily_20171001_to_20250912.csv'
     convert_cached_interval_to_csv(symbol, '1D', out_daily, market_filter=False)
 
     print('\n=== Pipeline completed ===')
