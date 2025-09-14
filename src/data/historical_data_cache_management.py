@@ -363,21 +363,125 @@ def save_dec_15min_historical_data(days):
 
 
 def save_all_data():
-    # Download 2 weeks of data: Sep 1-5 and Sep 8-12
     resolutions = ["10", "1D"]  # 10-minute and daily
     symbols = ["NSE:RELIANCE-EQ"]
     
-    print("===== Downloading Week 1: 2025-09-01 to 2025-09-05 =====")
+    print("===== Downloading  =====")
     for symbol in symbols:
         for resolution in resolutions:
-            save_this_week_historical_data(symbol, resolution)
-    
-    print("===== Downloading Week 2: 2025-09-08 to 2025-09-12 =====")
-    for symbol in symbols:
-        for resolution in resolutions:
-            save_last_week_historical_data(symbol, resolution)
+            save_2022_2021_2020_histotical_data(symbol, resolution)
     
     print("===== Data download completed =====")
+
+
+def save_range_quarters(symbol, interval, start_date_str, end_date_str):
+    """Download data in ~quarterly chunks from start_date to end_date (inclusive).
+
+    Files are stored under cache_raw_data_all_intraday/{symbol}/interval_{interval}/
+    as day_{start}_to_{end}.json for each chunk.
+    """
+    from datetime import datetime, date
+
+    start = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+    end = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+
+    cur_start = start
+    while cur_start <= end:
+        # compute quarter end by adding ~3 months
+        year = cur_start.year
+        month = cur_start.month
+        next_month = month + 3
+        next_year = year
+        if next_month > 12:
+            next_month -= 12
+            next_year += 1
+
+        # last day of the quarter candidate
+        # choose day 1 of next_month and subtract 1 day
+        quarter_end = date(next_year, next_month, 1) - timedelta(days=1)
+        chunk_end = quarter_end if quarter_end <= end else end
+
+        start_date = cur_start.strftime("%Y-%m-%d")
+        end_date = chunk_end.strftime("%Y-%m-%d")
+
+        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
+        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 21:00:00')
+
+        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
+        os.makedirs(cache_dir, exist_ok=True)
+        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
+
+        if os.path.exists(cache_file):
+            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
+        else:
+            print(f"Fetching {symbol} {interval} {start_date} to {end_date} -> {cache_file}")
+            data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
+            if data is None:
+                print(f"Warning: fetch returned None for {start_date} to {end_date} ({symbol} {interval})")
+            else:
+                with open(cache_file, 'w') as f:
+                    json.dump(data, f)
+                print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
+
+        # advance to next day after chunk_end
+        cur_start = chunk_end + timedelta(days=1)
+
+
+def convert_cached_interval_to_csv(symbol, interval, output_file, market_filter=True):
+    """Combine all cached JSON files for a symbol/interval into a single CSV.
+
+    - Reads all files under cache_raw_data_all_intraday/{symbol}/interval_{interval}/
+    - Concatenates 'candles' arrays into a DataFrame and sorts by timestamp
+    - Optionally filters intraday rows to market hours (09:15-15:30 IST)
+    - Writes CSV to output_file under data/raw/
+    """
+    import glob
+
+    cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
+    files = sorted(glob.glob(os.path.join(cache_dir, 'day_*.json')))
+    if not files:
+        print(f"No cache files found in {cache_dir}")
+        return None
+
+    all_dfs = []
+    for fp in files:
+        try:
+            with open(fp, 'r') as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"Failed to read {fp}: {e}")
+            continue
+
+        if not data or 'candles' not in data or not data['candles']:
+            print(f"No candles in {fp}")
+            continue
+
+        df = pd.DataFrame(data['candles'], columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+        # convert to datetime IST for filtering
+        df['datetime_utc'] = pd.to_datetime(df['timestamp'], unit='s', utc=True)
+        df['datetime_ist'] = df['datetime_utc'].dt.tz_convert('Asia/Kolkata')
+        df['date_ist'] = df['datetime_ist'].dt.date
+        df['time_ist'] = df['datetime_ist'].dt.time
+
+        all_dfs.append(df)
+
+    if not all_dfs:
+        print("No valid candle data found in any cache files.")
+        return None
+
+    combined = pd.concat(all_dfs, ignore_index=True)
+    combined = combined.sort_values('timestamp').reset_index(drop=True)
+
+    if market_filter and interval not in ("1D", "1"):
+        market_start = pd.to_datetime('09:15', format='%H:%M').time()
+        market_end = pd.to_datetime('15:30', format='%H:%M').time()
+        combined = combined[(combined['time_ist'] >= market_start) & (combined['time_ist'] <= market_end)]
+
+    final_df = combined[['timestamp', 'open', 'high', 'low', 'close', 'volume']].copy()
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    final_df.to_csv(output_file, index=False)
+    print(f"Saved combined CSV: {output_file} ({len(final_df)} rows)")
+    return output_file
 
 
 def generate_4_training_csv_files():
@@ -466,8 +570,36 @@ def generate_4_training_csv_files():
     return output_dir
 
 
-save_all_data()
-generate_4_training_csv_files()
+def _run_full_pipeline():
+    """Download required ranges and convert to final CSVs.
+
+    Downloads 5-minute and 1-day data for NSE:RELIANCE-EQ from 2017-10-01 to 2025-09-12.
+    """
+    symbol = "NSE:RELIANCE-EQ"
+    start_date = "2017-10-01"
+    end_date = "2025-09-12"
+
+    # 5-minute data uses interval '5'
+    print("=== Downloading 5-minute data in quarterly chunks ===")
+    save_range_quarters(symbol, '5', start_date, end_date)
+
+    # daily data uses interval '1D'
+    print("=== Downloading daily data in quarterly chunks ===")
+    save_range_quarters(symbol, '1D', start_date, end_date)
+
+    # Convert cached JSON to CSV. For 5-min use our converter, for daily also convert.
+    out_5min = 'data/raw/RELIANCE_NSE_5min_20171001_to_20250912.csv'
+    convert_cached_interval_to_csv(symbol, '5', out_5min, market_filter=True)
+
+    out_daily = 'data/raw/RELIANCE_NSE_daily_20171001_to_20250912.csv'
+    convert_cached_interval_to_csv(symbol, '1D', out_daily, market_filter=False)
+
+    print('\n=== Pipeline completed ===')
+
+
+if __name__ == '__main__':
+    # Run the full pipeline when executed as a script
+    _run_full_pipeline()
 
 def get_cached_data(symbol, date_str, interval):
     cache_dir = f"cache2/{symbol}/interval_{interval}/"

@@ -1,3 +1,0 @@
-Version,Architecture,Parameters,MSE,MAE,Direction Acc,Avg Correlation,Close MAE%
-v2_attention,AttentionLSTM,64,5021.5264,60.4525,0.5,0.5762,3.62
-v3_simpler,SimplerLSTM,32,7430.6846,79.9631,0.4773,-0.0468,5.44

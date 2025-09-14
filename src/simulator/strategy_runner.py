@@ -740,9 +740,9 @@ class StrategyRunner:
 def main():
     """Main execution function with proper strategy organization"""
     
-    # Configuration - Using V5 Enhanced predictions
-    DATA_FILE = "data/raw/10min/RELIANCE_NSE_10min_20240101_to_20250831.csv"
-    PREDICTIONS_FILE = "data/predictions/backtest_predictions_v5_20240101_to_20250831.json"
+    # Configuration - Using V7 backtest predictions (Jan-May 2025)
+    DATA_FILE = "data/backtest/RELIANCE/5min/RELIANCE_NSE_2025-01-01_to_2025-05-31.csv"
+    PREDICTIONS_FILE = "data/predictions/backtest_predictions_v7_20250101_to_20250531.json"
     
     print("🚀 Strategy Runner - V5 Enhanced Predictions")
     print("=" * 80)
