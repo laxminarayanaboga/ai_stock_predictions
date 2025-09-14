@@ -6,19 +6,55 @@
       "description": "Original model - 3-layer LSTM with 128 hidden units, 26 features",
       "status": "created"
     },
+    "v2_attention": {
+      "path": "models/versions/v2_attention",
+      "creation_date": "2025-09-12T21:24:09.780529",
+      "description": "LSTM with multi-head attention mechanism",
+      "status": "trained"
+    },
     "v3_simpler": {
       "path": "models/versions/v3_simpler",
       "creation_date": "2025-09-12T21:24:06.378185",
       "description": "Simplified LSTM to reduce overfitting",
       "status": "trained"
     },
-    "v2_attention": {
-      "path": "models/versions/v2_attention",
-      "creation_date": "2025-09-12T21:24:09.780529",
-      "description": "LSTM with multi-head attention mechanism",
+    "v4_minimal": {
+      "path": "models/versions/v4_minimal",
+      "creation_date": "2025-09-13T00:00:00.000000",
+      "description": "Minimal architecture for better generalization",
       "status": "trained"
+    },
+    "v5_enhanced": {
+      "path": "models/versions/v5_enhanced",
+      "creation_date": "2025-09-14T03:42:37.684936",
+      "description": "Enhanced LSTM with multi-scale attention, adaptive dropout, and comprehensive feature engineering. Training cutoff: 2024-01-01",
+      "status": "trained",
+      "performance": {
+        "correlation": 0.65,
+        "direction_accuracy": 0.60,
+        "simulation_success": true
+      }
+    },
+    "v6_enhanced": {
+      "path": "models/versions/v6_enhanced",
+      "creation_date": "2025-09-14T23:00:00.000000",
+      "description": "V6 Enhanced LSTM based on successful V5 architecture with updated training data through September 2025. Same architecture as V5 but with extended data cutoff.",
+      "status": "training",
+      "data_cutoff": "2025-09-12",
+      "improvements": [
+        "Extended training data from 2024-01-01 to 2025-09-12",
+        "Enhanced timestamp handling for different data formats",
+        "Improved prediction scripts with next-day forecasting",
+        "Better documentation and usage guides"
+      ],
+      "expected_performance": {
+        "correlation": ">0.65",
+        "direction_accuracy": ">0.60",
+        "target": "Maintain V5 performance with more recent data"
+      }
     }
   },
-  "current_version": "v2_attention",
-  "creation_date": "2025-09-12T21:22:40.548253"
+  "current_version": "v6_enhanced",
+  "creation_date": "2025-09-12T21:22:40.548253",
+  "last_updated": "2025-09-14T23:00:00.000000"
 }

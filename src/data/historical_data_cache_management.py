@@ -143,9 +143,9 @@ def save_validation_period_data(symbol, interval):
         print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
 
 
-def save_2025_histotical_data(symbol, interval):
+def save_this_week_historical_data(symbol, interval):
     dates = [
-        {"start_date": "2025-03-11", "end_date": "2025-03-11"}
+        {"start_date": "2025-09-01", "end_date": "2025-09-05"}
     ]
 
     for date in dates:
@@ -167,6 +167,34 @@ def save_2025_histotical_data(symbol, interval):
 
         with open(cache_file, 'w') as f:
             # json.dump(data, f, indent=4)
+            json.dump(data, f)
+        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
+
+
+def save_last_week_historical_data(symbol, interval):
+    """Download data for second week: 2025-09-08 to 2025-09-12"""
+    dates = [
+        {"start_date": "2025-09-08", "end_date": "2025-09-12"}
+    ]
+
+    for date in dates:
+        start_date = date["start_date"]
+        end_date = date["end_date"]
+        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
+        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 21:00:00')
+
+        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
+        os.makedirs(cache_dir, exist_ok=True)
+        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
+
+        # if cache file already exists, skip
+        if os.path.exists(cache_file):
+            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
+            continue
+
+        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
+
+        with open(cache_file, 'w') as f:
             json.dump(data, f)
         print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
 
@@ -335,26 +363,111 @@ def save_dec_15min_historical_data(days):
 
 
 def save_all_data():
-    # symbols nifty50 - bluchips
-    # days - oct_weekdays, nov_weekdays, dec_weekdays, jan_weekdays
-    # resolutions = ["5S", "5", "10", "15"]
-    # resolutions = ["1"]
-    resolutions = ["1", "5", "10", "15"]
-    symbols = getNifty500Symbols()
-    # symbols = getBlueChipsSymbos()
-    # days = oct_weekdays + nov_weekdays + dec_weekdays + jan_weekdays
-    # print(f"Total symbols: {len(symbols)}")
-    # print(f"Total days: {len(days)}")
-    # print(f"Total resolutions: {len(resolutions)}")
+    # Download 2 weeks of data: Sep 1-5 and Sep 8-12
+    resolutions = ["10", "1D"]  # 10-minute and daily
+    symbols = ["NSE:RELIANCE-EQ"]
     
-    print("===== Saving data for save_2025_histotical_data")
+    print("===== Downloading Week 1: 2025-09-01 to 2025-09-05 =====")
     for symbol in symbols:
         for resolution in resolutions:
-            save_2025_histotical_data(symbol, resolution)
-    print("===== Data saved for save_2025_histotical_data")
+            save_this_week_historical_data(symbol, resolution)
     
+    print("===== Downloading Week 2: 2025-09-08 to 2025-09-12 =====")
+    for symbol in symbols:
+        for resolution in resolutions:
+            save_last_week_historical_data(symbol, resolution)
     
-# save_all_data()
+    print("===== Data download completed =====")
+
+
+def generate_4_training_csv_files():
+    """Generate exactly 4 CSV files as requested"""
+    import pandas as pd
+    import json
+    
+    cache_dir = "cache_raw_data_all_intraday/NSE:RELIANCE-EQ/"
+    output_dir = "data/raw/training_weeks/"
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Files to process
+    files_to_convert = [
+        {
+            "cache_file": "interval_10/day_2025-09-01_to_2025-09-05.json",
+            "output_file": "RELIANCE_10min_20250901_to_20250905.csv",
+            "description": "Week 1 - 10 minute data"
+        },
+        {
+            "cache_file": "interval_10/day_2025-09-08_to_2025-09-12.json", 
+            "output_file": "RELIANCE_10min_20250908_to_20250912.csv",
+            "description": "Week 2 - 10 minute data"
+        },
+        {
+            "cache_file": "interval_1D/day_2025-09-01_to_2025-09-05.json",
+            "output_file": "RELIANCE_daily_20250901_to_20250905.csv", 
+            "description": "Week 1 - Daily data"
+        },
+        {
+            "cache_file": "interval_1D/day_2025-09-08_to_2025-09-12.json",
+            "output_file": "RELIANCE_daily_20250908_to_20250912.csv",
+            "description": "Week 2 - Daily data" 
+        }
+    ]
+    
+    print("🔄 GENERATING 4 TRAINING CSV FILES")
+    print("=" * 60)
+    
+    for file_info in files_to_convert:
+        cache_path = os.path.join(cache_dir, file_info["cache_file"])
+        output_path = os.path.join(output_dir, file_info["output_file"])
+        
+        print(f"📦 Processing {file_info['description']}")
+        
+        if os.path.exists(cache_path):
+            with open(cache_path, 'r') as f:
+                data = json.load(f)
+            
+            if 'candles' in data and data['candles']:
+                # Convert to DataFrame
+                df = pd.DataFrame(data['candles'], columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+                
+                # Convert timestamp to IST for verification
+                df['datetime_ist'] = pd.to_datetime(df['timestamp'], unit='s', utc=True).dt.tz_convert('Asia/Kolkata')
+                df['date_ist'] = df['datetime_ist'].dt.date
+                df['time_ist'] = df['datetime_ist'].dt.time
+                
+                # Filter to market hours for 10-minute data
+                if "10min" in file_info["output_file"]:
+                    market_start = pd.to_datetime('09:15', format='%H:%M').time()
+                    market_end = pd.to_datetime('15:30', format='%H:%M').time()
+                    df_filtered = df[(df['time_ist'] >= market_start) & (df['time_ist'] <= market_end)]
+                else:
+                    df_filtered = df  # Daily data doesn't need time filtering
+                
+                # Save CSV with essential columns only
+                final_df = df_filtered[['timestamp', 'open', 'high', 'low', 'close', 'volume']].copy()
+                final_df.to_csv(output_path, index=False)
+                
+                # Stats
+                days = len(df_filtered['date_ist'].unique()) if len(df_filtered) > 0 else 0
+                first_date = df_filtered['date_ist'].iloc[0] if len(df_filtered) > 0 else "No data"
+                last_date = df_filtered['date_ist'].iloc[-1] if len(df_filtered) > 0 else "No data"
+                
+                print(f"  ✅ {len(df_filtered)} records across {days} days")
+                print(f"  📅 Date range: {first_date} to {last_date}")
+                print(f"  💾 Saved: {output_path}")
+            else:
+                print(f"  ❌ No candle data in {cache_path}")
+        else:
+            print(f"  ❌ Cache file not found: {cache_path}")
+        print()
+    
+    print("✅ All 4 CSV files generated!")
+    print(f"📁 Location: {output_dir}")
+    return output_dir
+
+
+save_all_data()
+generate_4_training_csv_files()
 
 def get_cached_data(symbol, date_str, interval):
     cache_dir = f"cache2/{symbol}/interval_{interval}/"

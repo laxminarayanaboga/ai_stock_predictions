@@ -1,0 +1,32 @@
+{
+  "prediction_date": "2025-09-14",
+  "prediction_time": "2025-09-14 06:17:39",
+  "model_version": "v5_enhanced",
+  "last_actual": {
+    "Open": 1383.3,
+    "High": 1396.3,
+    "Low": 1380.5,
+    "Close": 1395.0
+  },
+  "predicted": {
+    "Open": 758.5227661132812,
+    "High": 760.58447265625,
+    "Low": 761.5958862304688,
+    "Close": 744.8439331054688
+  },
+  "prediction_changes": {
+    "Open": -45.16570764741695,
+    "High": -45.52857747932034,
+    "Low": -44.83188075114315,
+    "Close": -46.60616966985887
+  },
+  "uncertainty": {
+    "Open": NaN,
+    "High": NaN,
+    "Low": NaN,
+    "Close": NaN
+  },
+  "confidence": 0.5555834770202637,
+  "uncertainty_score": NaN,
+  "prediction_quality": "Low"
+}

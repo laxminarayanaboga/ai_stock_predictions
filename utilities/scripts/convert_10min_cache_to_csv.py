@@ -64,7 +64,8 @@ def convert_cached_10min_to_csv():
         # 2025
         "day_2025-01-01_to_2025-03-31.json",
         "day_2025-04-01_to_2025-06-30.json",
-        "day_2025-07-01_to_2025-08-31.json"
+        "day_2025-07-01_to_2025-08-31.json",
+        "day_2025-09-01_to_2025-09-05.json"  # Latest data
     ]
     
     total_candles = 0
@@ -141,7 +142,7 @@ def convert_cached_10min_to_csv():
         # Save to CSV with only essential columns (no datetime strings)
         final_df = combined_df[['timestamp', 'open', 'high', 'low', 'close', 'volume']].copy()
         
-        output_file = f"{output_dir}RELIANCE_NSE_10min_20170701_to_20250831.csv"
+        output_file = f"{output_dir}RELIANCE_NSE_10min_20170701_to_20250905.csv"
         final_df.to_csv(output_file, index=False)
         
         print(f"\n💾 SAVED TO: {output_file}")

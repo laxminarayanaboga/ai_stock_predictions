@@ -210,9 +210,6 @@ __marimo__/
 # Sensitive API configuration (contains keys and tokens)
 config.ini
 
-# Large model files (can be regenerated) - exclude .pth files but keep metadata
-models/*.pth
-
 # Large data files - exclude raw CSV data but keep small samples
 data/raw/*.csv
 
