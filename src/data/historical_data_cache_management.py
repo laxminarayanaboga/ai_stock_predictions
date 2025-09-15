@@ -11,7 +11,11 @@ import sys
 # Add paths for imports
 sys.path.append('/Users/bogalaxminarayana/myGit/ai_stock_predictions')
 
-from src.data.data_fetch import fetch_historical_raw_data
+try:
+    from src.data.data_fetch import fetch_historical_raw_data
+except Exception as _e:
+    fetch_historical_raw_data = None
+    _FETCH_IMPORT_ERROR = _e
 from utilities.date_utilities import get_current_epoch_timestamp, get_epoch_timestamp_from_datetime_ist_string
 from src.data.symbols_management import filterNifty50Symbols, getAllIntradayNSEApprovedSymbols, getAllIntradayNSEApprovedSymbolsExceptNifty50, getAllIntradayNSEApprovedSymbolsExceptNifty500, getBlueChipsSymbos, getNifty200Symbols, getNifty500Symbols, getNifty500SymbolsExceptNifty50, getNifty50Symbols
 
@@ -68,18 +72,31 @@ def get_start_end_timestamps(date_str):
     return start_timestamp, end_timestamp
 
 
-def save_single_day_cache_historical_data(symbol, date_str, interval):
-    cache_dir = f"cache/{symbol}/interval_{interval}/"
+def save_single_day_cache_historical_data(symbol, date_str, interval, base_dir="cache"):
+    """
+    Save a single day's intraday candles for a symbol and interval into JSON cache.
+
+    Args:
+        symbol: e.g., "NSE:RELIANCE-EQ"
+        date_str: YYYY-MM-DD (IST trading date)
+        interval: e.g., "5S", "1", "5", "10", "15", "1D" (Fyers resolution)
+        base_dir: top-level cache directory (default "cache"). Use
+                  "cache_raw_data_all_intraday" to align with rest of project.
+    """
+    cache_dir = f"{base_dir}/{symbol}/interval_{interval}/"
     os.makedirs(cache_dir, exist_ok=True)
     cache_file = f"{cache_dir}day_{date_str}.json"
 
-    # derive start and end date from the day given. ex: 2024-12-01. start_date should be 3.30 am GMT in unix timestamp and end_date should be 10.00 am GMT of the same day.
-    start_date, end_date = get_start_end_timestamps(date_str)
-    data = fetch_historical_raw_data(symbol, interval, start_date, end_date)
+    # derive start and end date from the day given. ex: 2024-12-01.
+    # start_date should be 3:30 am GMT (09:00 IST) and end_date 10:00 am GMT (15:30 IST) of the same day.
+    if fetch_historical_raw_data is None:
+        raise RuntimeError(f"fetch_historical_raw_data is unavailable (Fyers deps missing): {_FETCH_IMPORT_ERROR}")
+    start_ts, end_ts = get_start_end_timestamps(date_str)
+    data = fetch_historical_raw_data(symbol, interval, start_ts, end_ts)
 
     with open(cache_file, 'w') as f:
-        json.dump(data, f, indent=4)
-    print(f"Data saved to cache for {symbol}, {date_str}, {interval}")
+        json.dump(data, f)
+    print(f"Data saved to cache for {symbol}, {date_str}, {interval} -> {cache_file}")
 
 def save_historical_data_2024Jul01_to_2025Jan18(symbol, interval):
     start_date = '2024-07-01'
@@ -104,228 +121,6 @@ def save_historical_data_2024Jul01_to_2025Jan18(symbol, interval):
     print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
 
 
-def save_validation_period_data(symbol, interval):
-    """Download 10-minute data for AI validation period: Aug 2023 to Aug 2025"""
-    dates = [
-        # 2023 Q3-Q4
-        {"start_date": "2023-08-01", "end_date": "2023-09-30"},
-        {"start_date": "2023-10-01", "end_date": "2023-12-31"},
-        # 2024 Q1-Q4
-        {"start_date": "2024-01-01", "end_date": "2024-03-31"},
-        {"start_date": "2024-04-01", "end_date": "2024-06-30"},
-        {"start_date": "2024-07-01", "end_date": "2024-09-30"},
-        {"start_date": "2024-10-01", "end_date": "2024-12-31"},
-        # 2025 Q1-Q3
-        {"start_date": "2025-01-01", "end_date": "2025-03-31"},
-        {"start_date": "2025-04-01", "end_date": "2025-06-30"},
-        {"start_date": "2025-07-01", "end_date": "2025-08-31"}
-    ]
-
-    for date in dates:
-        start_date = date["start_date"]
-        end_date = date["end_date"]
-        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
-        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 21:00:00')
-
-        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
-        os.makedirs(cache_dir, exist_ok=True)
-        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
-
-        # if cache file already exists, skip
-        if os.path.exists(cache_file):
-            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
-            continue
-
-        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
-
-        with open(cache_file, 'w') as f:
-            json.dump(data, f)
-        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
-
-
-def save_this_week_historical_data(symbol, interval):
-    dates = [
-        {"start_date": "2025-09-01", "end_date": "2025-09-05"}
-    ]
-
-    for date in dates:
-        start_date = date["start_date"]
-        end_date = date["end_date"]
-        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
-        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 21:00:00')
-
-        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
-        os.makedirs(cache_dir, exist_ok=True)
-        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
-
-        # if cache file already exists, skip
-        if os.path.exists(cache_file):
-            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
-            continue
-
-        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
-
-        with open(cache_file, 'w') as f:
-            # json.dump(data, f, indent=4)
-            json.dump(data, f)
-        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
-
-
-def save_last_week_historical_data(symbol, interval):
-    """Download data for second week: 2025-09-08 to 2025-09-12"""
-    dates = [
-        {"start_date": "2025-09-08", "end_date": "2025-09-12"}
-    ]
-
-    for date in dates:
-        start_date = date["start_date"]
-        end_date = date["end_date"]
-        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
-        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 21:00:00')
-
-        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
-        os.makedirs(cache_dir, exist_ok=True)
-        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
-
-        # if cache file already exists, skip
-        if os.path.exists(cache_file):
-            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
-            continue
-
-        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
-
-        with open(cache_file, 'w') as f:
-            json.dump(data, f)
-        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
-
-
-def save_2024_histotical_data(symbol, interval):
-    dates = [
-        {"start_date": "2024-01-01", "end_date": "2024-03-31"},
-        {"start_date": "2024-04-01", "end_date": "2024-06-30"},
-        {"start_date": "2024-07-01", "end_date": "2024-09-30"},
-        {"start_date": "2024-10-01", "end_date": "2024-12-31"}
-    ]
-
-    for date in dates:
-        start_date = date["start_date"]
-        end_date = date["end_date"]
-        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
-        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 09:00:00')
-
-        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
-        os.makedirs(cache_dir, exist_ok=True)
-        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
-
-        # if cache file already exists, skip
-        if os.path.exists(cache_file):
-            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
-            continue
-
-        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
-
-        with open(cache_file, 'w') as f:
-            # json.dump(data, f, indent=4)
-            json.dump(data, f)
-        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
-
-
-def save_2023_histotical_data(symbol, interval):
-    dates = [
-        {"start_date": "2023-01-01", "end_date": "2023-03-31"},
-        {"start_date": "2023-04-01", "end_date": "2023-06-30"},
-        {"start_date": "2023-07-01", "end_date": "2023-09-30"},
-        {"start_date": "2023-10-01", "end_date": "2023-12-31"}
-    ]
-
-    for date in dates:
-        start_date = date["start_date"]
-        end_date = date["end_date"]
-        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
-        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 09:00:00')
-
-        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
-        os.makedirs(cache_dir, exist_ok=True)
-        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
-
-        # if cache file already exists, skip
-        if os.path.exists(cache_file):
-            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
-            continue
-
-        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
-
-        with open(cache_file, 'w') as f:
-            # json.dump(data, f, indent=4)
-            json.dump(data, f)
-        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
-
-
-def save_2022_2021_2020_histotical_data(symbol, interval):
-    dates = [
-        # 2015 (from Sep 11 to match daily data)
-        {"start_date": "2015-09-11", "end_date": "2015-12-31"},
-        # 2016
-        {"start_date": "2016-01-01", "end_date": "2016-03-31"},
-        {"start_date": "2016-04-01", "end_date": "2016-06-30"},
-        {"start_date": "2016-07-01", "end_date": "2016-09-30"},
-        {"start_date": "2016-10-01", "end_date": "2016-12-31"},
-        # 2017
-        {"start_date": "2017-01-01", "end_date": "2017-03-31"},
-        {"start_date": "2017-04-01", "end_date": "2017-06-30"},
-        {"start_date": "2017-07-01", "end_date": "2017-09-30"},
-        {"start_date": "2017-10-01", "end_date": "2017-12-31"},
-        # 2018
-        {"start_date": "2018-01-01", "end_date": "2018-03-31"},
-        {"start_date": "2018-04-01", "end_date": "2018-06-30"},
-        {"start_date": "2018-07-01", "end_date": "2018-09-30"},
-        {"start_date": "2018-10-01", "end_date": "2018-12-31"},
-        # 2019
-        {"start_date": "2019-01-01", "end_date": "2019-03-31"},
-        {"start_date": "2019-04-01", "end_date": "2019-06-30"},
-        {"start_date": "2019-07-01", "end_date": "2019-09-30"},
-        {"start_date": "2019-10-01", "end_date": "2019-12-31"},
-        # 2020
-        {"start_date": "2020-01-01", "end_date": "2020-03-31"},
-        {"start_date": "2020-04-01", "end_date": "2020-06-30"},
-        {"start_date": "2020-07-01", "end_date": "2020-09-30"},
-        {"start_date": "2020-10-01", "end_date": "2020-12-31"},
-        # 2021
-        {"start_date": "2021-01-01", "end_date": "2021-03-31"},
-        {"start_date": "2021-04-01", "end_date": "2021-06-30"},
-        {"start_date": "2021-07-01", "end_date": "2021-09-30"},
-        {"start_date": "2021-10-01", "end_date": "2021-12-31"},
-        # 2022
-        {"start_date": "2022-01-01", "end_date": "2022-03-31"},
-        {"start_date": "2022-04-01", "end_date": "2022-06-30"},
-        {"start_date": "2022-07-01", "end_date": "2022-09-30"},
-        {"start_date": "2022-10-01", "end_date": "2022-12-31"}
-    ]
-
-    for date in dates:
-        start_date = date["start_date"]
-        end_date = date["end_date"]
-        start_time = get_epoch_timestamp_from_datetime_ist_string(f'{start_date} 09:00:00')
-        end_time = get_epoch_timestamp_from_datetime_ist_string(f'{end_date} 09:00:00')
-
-        cache_dir = f"cache_raw_data_all_intraday/{symbol}/interval_{interval}/"
-        os.makedirs(cache_dir, exist_ok=True)
-        cache_file = f"{cache_dir}day_{start_date}_to_{end_date}.json"
-
-        # if cache file already exists, skip
-        if os.path.exists(cache_file):
-            print(f"Data already exists for {symbol}, {start_date}, {end_date}, {interval}")
-            continue
-
-        data = fetch_historical_raw_data(symbol, interval, start_time, end_time)
-
-        with open(cache_file, 'w') as f:
-            # json.dump(data, f, indent=4)
-            json.dump(data, f)
-        print(f"Data saved to cache for {symbol}, {start_date}, {end_date}, {interval}")
-
-# save_2024_histotical_data("NSE:RELIANCE-EQ", "5")
-# save_single_day_cache_historical_data("NSE:ASIANPAINT-EQ","2024-12-02", "5S")
 
 def save_dec_5sec_historical_data(days):
     symbols = getBlueChipsSymbos()
@@ -351,6 +146,43 @@ def save_dec_10min_historical_data(days):
             save_single_day_cache_historical_data(symbol, date_str, "10")
 
     print("---END---")
+
+
+def save_5s_range_daily(symbol: str, start_date_str: str, end_date_str: str, base_dir: str = "cache_raw_data_all_intraday"):
+    """
+    Download 5-second candles day-by-day for a symbol across the given date range.
+    Saves files under {base_dir}/{symbol}/interval_5S/day_YYYY-MM-DD.json
+
+    This is safer for high-resolution data due to API limits.
+    """
+    from datetime import datetime, timedelta
+
+    start = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+    end = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+    d = start
+    while d <= end:
+        d_str = d.strftime("%Y-%m-%d")
+        try:
+            save_single_day_cache_historical_data(symbol, d_str, "5S", base_dir=base_dir)
+        except Exception as e:
+            print(f"Failed to save 5S for {symbol} {d_str}: {e}")
+        d += timedelta(days=1)
+
+
+def ensure_5s_csv(symbol: str, start_date_str: str, end_date_str: str) -> str:
+    """
+    Ensure combined CSV exists for 5-second candles over the date range.
+    If cache files are missing, download them day-by-day first, then combine.
+
+    Returns path to CSV under data/raw/
+    """
+    # Download per-day JSON caches
+    save_5s_range_daily(symbol, start_date_str, end_date_str, base_dir="cache_raw_data_all_intraday")
+
+    # Convert all cached files to a single CSV
+    out_name = f"data/raw/{symbol.replace(':','_')}_5s_{start_date_str.replace('-','')}_to_{end_date_str.replace('-','')}.csv"
+    convert_cached_interval_to_csv(symbol, '5S', out_name, market_filter=True)
+    return out_name
 
 
 def save_dec_15min_historical_data(days):
@@ -599,7 +431,10 @@ def _run_full_pipeline():
 
 if __name__ == '__main__':
     # Run the full pipeline when executed as a script
-    _run_full_pipeline()
+    ensure_5s_csv("NSE:RELIANCE-EQ","2025-08-25", "2025-08-29")
+    ensure_5s_csv("NSE:RELIANCE-EQ","2025-08-18", "2025-08-22")
+    ensure_5s_csv("NSE:RELIANCE-EQ","2025-08-11", "2025-08-15")
+    ensure_5s_csv("NSE:RELIANCE-EQ","2025-08-04", "2025-08-08")
 
 def get_cached_data(symbol, date_str, interval):
     cache_dir = f"cache2/{symbol}/interval_{interval}/"

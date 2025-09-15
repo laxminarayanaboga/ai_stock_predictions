@@ -237,3 +237,4 @@ simulation_results/
 *performance_report*.json
 src/simulator/results/
 cache_raw_data_all_intraday
+src/scalping/results/
