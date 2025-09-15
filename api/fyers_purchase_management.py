@@ -1,9 +1,10 @@
 
 from api.fyers_session_management import get_fyers_session
+import os
 
 
 
-tradeEnabled = True
+tradeEnabled = os.getenv('TRADE_ENABLED', 'false').lower() in ('1', 'true', 'yes', 'y')
 
 
 def place_order(data):

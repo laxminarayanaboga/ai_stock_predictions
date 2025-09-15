@@ -78,42 +78,19 @@ pip install -r requirements.txt
 
 ### 2. **Configure Fyers API**
 Edit `config.ini` with your Fyers API credentials:
-```ini
-[Fyers_APP]
-client_id = YOUR_CLIENT_ID
-secret_key = YOUR_SECRET_KEY
 # ... other credentials
 ```
-
-### 3. **Download Data**
-```bash
-python src/data/reliance_data_downloader.py
 ```
 
-### 4. **Train Model**
-```bash
-python src/models/enhanced_lstm.py
-```
 
 ### 5. **Make Predictions**
-```bash
-python predict.py
-```
-
 ### 6. **Run Trading Simulations**
 ```bash
 # Single strategy simulation
 python src/simulator/strategy_simulator.py
 
-# Multi-strategy comparison (recommended)
-python src/simulator/strategy_runner.py
-src/simulator/results/run_TCS_20250915_023815
 ```
 
-## 🎪 **Usage Examples**
-
-### **Quick Prediction**
-```bash
 $ python predict.py
 
 🔮 Reliance Stock Price Predictor
@@ -129,8 +106,6 @@ Open     ₹1383.90   ₹1373.73    -10.17   -0.7% 🔴
 High     ₹1388.50   ₹1385.84     -2.66   -0.2% 🔴
 Low      ₹1374.10   ₹1367.01     -7.09   -0.5% 🔴
 Close    ₹1377.00   ₹1375.88     -1.12   -0.1% 🔴
-----------------------------------------
-💡 Sentiment: ⚪ HOLD
 📊 Expected Close: ₹1375.88 (-0.1%)
 ```
 
@@ -279,6 +254,9 @@ python src/data/test_fyers_api_limits.py
 ### **🏗️ Trading Simulation Commands**
 ```bash
 python src/simulator/strategy_runner.py --data data/raw/RELIANCE_NSE_5min_20171001_to_20250912.csv --pred data/predictions/v9_backtest_RELIANCE_20250101_to_20250531.json --symbol RELIANCE
+python src/simulator/strategy_runner.py --data data/raw/TATAMOTORS_NSE_5min_20171001_to_20250912.csv --pred data/predictions/v9_backtest_TATAMOTORS_20250101_to_20250531.json --symbol TATAMOTORS
+python src/simulator/strategy_runner.py --data data/raw/NTPC_NSE_5min_20171001_to_20250912.csv --pred data/predictions/v9_backtest_NTPC_20250101_to_20250531.json --symbol NTPC
+python src/simulator/strategy_runner.py --data data/raw/TCS_NSE_5min_20171001_to_20250912.csv --pred data/predictions/v9_backtest_TCS_20250101_to_20250531.json --symbol TCS
 ```
 
 ### **🔧 API & Authentication Commands**
