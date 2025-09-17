@@ -238,3 +238,6 @@ simulation_results/
 src/simulator/results/
 cache_raw_data_all_intraday
 src/scalping/results/
+
+# Run logs and session artifacts
+logs/

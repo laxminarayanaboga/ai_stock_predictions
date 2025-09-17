@@ -163,8 +163,15 @@ def update_raw_data_for_symbol(sym: str, verbose: bool = True) -> Dict[str, int]
         if end_epoch > start_epoch:
             resp = fetch_historical_raw_data(to_fyers_symbol(sym), '1D', start_epoch, end_epoch)
             if resp and resp.get('s') == 'ok' and resp.get('candles'):
+                # Filter out today's partial daily candle (IST)
+                try:
+                    ist = ZoneInfo('Asia/Kolkata')
+                    today_ts_floor = pd.Timestamp(datetime.now(tz=ist).date()).tz_localize(ist).tz_convert('UTC').timestamp()
+                    filtered = [c for c in resp['candles'] if c and len(c) >= 1 and float(c[0]) < float(today_ts_floor)]
+                except Exception:
+                    filtered = resp['candles']
                 before = len(dfd)
-                dfdu = _append_new_candles(dfd, resp['candles'])
+                dfdu = _append_new_candles(dfd, filtered)
                 counts['daily_added'] = len(dfdu) - before
                 if counts['daily_added'] > 0:
                     dfdu.to_csv(pathd, index=False)
@@ -223,6 +230,18 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
     pipe = DataPipeline(str(daily_csv), str(id_csv), feat_cfg)
     ddf = pipe.load_daily()
     idf = pipe.load_intraday()
+
+    # Ensure we predict for TODAY during market hours: drop today's partial rows (IST)
+    try:
+        ist = ZoneInfo('Asia/Kolkata')
+        today_naive = pd.Timestamp(datetime.now(tz=ist).date())
+        if ddf is not None and 'date' in ddf.columns:
+            ddf = ddf[pd.to_datetime(ddf['date']) < today_naive].copy()
+        if idf is not None and 'date' in idf.columns:
+            idf = idf[pd.to_datetime(idf['date']) < today_naive].copy()
+    except Exception:
+        # If filtering fails, proceed without it
+        pass
     id_agg = pipe.compute_intraday_aggregates(idf) if idf is not None else None
     df = pipe.engineer_features(ddf, id_agg)
     df = pipe.make_targets(df)
@@ -250,7 +269,7 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
     # Build features per fold, respecting saved feature list + lookback
     preds_accum = []
     probs_accum = []
-    last_dates = []
+    base_dates = []
 
     for fi in fold_idxs:
         state = torch.load(ckpt_dir / f"{run_name}_fold{fi}.pt", map_location='cpu')
@@ -259,14 +278,16 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
             feature_cols = get_default_feature_columns(df)
         lookback = int(state.get('lookback', cfg['sequence']['lookback']))
 
-        req_cols = feature_cols + ['open_rel', 'dh_rel', 'dl_rel', 'dc_rel', 'dir_label', 'open', 'high', 'low', 'close']
-        req_cols = [c for c in req_cols if c in df.columns]
-        df_clean = df.dropna(subset=req_cols).reset_index(drop=True)
-        if len(df_clean) < lookback + 1:
-            print(f"Insufficient data after cleaning for fold {fi}")
+        # Inference-only clean: require only feature columns (not targets)
+        feat_present = [c for c in feature_cols if c in df.columns]
+        df_feat = df.dropna(subset=feat_present).reset_index(drop=True)
+        if len(df_feat) < lookback:
+            print(f"Insufficient feature history for fold {fi}")
             continue
 
-        X, y, y_aux, dates, base_close = DataPipeline.sequence_dataset(df_clean, feature_cols, lookback)
+        # Build single latest sequence
+        X_last = df_feat[feat_present].values.astype(np.float32)[-lookback:]
+        base_date = pd.to_datetime(df_feat['date'].iloc[-1])
 
         # Load scaler for this fold
         scaler = Scalers()
@@ -275,7 +296,7 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
             print(f"Missing scaler for fold {fi}: {scaler_path}")
             continue
         scaler.load(str(scaler_path))
-        X_s = scaler.transform(X.reshape(-1, X.shape[-1])).reshape(X.shape)
+        X_s = scaler.transform(X_last.reshape(-1, X_last.shape[-1])).reshape(1, lookback, -1)
 
         # Temperature (optional)
         T = 1.0
@@ -288,7 +309,7 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
                 T = 1.0
 
         model = LSTMAttnNextDayOHLC(ModelConfig(
-            input_size=X.shape[-1],
+            input_size=X_s.shape[-1],
             hidden_size=cfg['model']['hidden_size'],
             num_layers=cfg['model']['num_layers'],
             dropout=cfg['model']['dropout'],
@@ -299,22 +320,21 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
         model.eval()
         with torch.no_grad():
             y_reg, y_dir = model(torch.tensor(X_s, dtype=torch.float32, device=device))
-            y_reg = y_reg.cpu().numpy()
-            probs = torch.softmax(y_dir / max(T, 1e-3), dim=-1).cpu().numpy()
+            y_reg = y_reg.cpu().numpy()  # shape (1, 4)
+            probs = torch.softmax(y_dir / max(T, 1e-3), dim=-1).cpu().numpy()  # shape (1, 2)
 
-        preds_accum.append(y_reg)
-        probs_accum.append(probs)
-        last_dates = dates  # keep aligned
+        preds_accum.append(y_reg[0])
+        probs_accum.append(probs[0])
+        base_dates.append(base_date)
 
     if not preds_accum:
         return None
 
-    y_reg_mean = np.mean(preds_accum, axis=0)
-    dir_prob_mean = np.mean(probs_accum, axis=0)
+    y_reg_mean = np.mean(np.stack(preds_accum, axis=0), axis=0)  # (4,)
+    dir_prob_mean = np.mean(np.stack(probs_accum, axis=0), axis=0)  # (2,)
 
-    # Use the last available base date -> prediction date next day
-    i = len(last_dates) - 1
-    base_date = pd.to_datetime(last_dates[i])
+    # Use the latest base date from features -> prediction date next day
+    base_date = max(base_dates)
     pred_date = (base_date + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
 
     # atr_pct for clamping
@@ -324,10 +344,10 @@ def predict_next_day_v9(sym: str) -> Optional[V9Prediction]:
 
     o, h, l, c = DataPipeline.postprocess_ohlc_from_rel(
         float(df_idx.loc[pd.to_datetime(base_date)]['close']),
-        float(y_reg_mean[i, 0]), float(y_reg_mean[i, 1]), float(y_reg_mean[i, 2]), float(y_reg_mean[i, 3]),
+        float(y_reg_mean[0]), float(y_reg_mean[1]), float(y_reg_mean[2]), float(y_reg_mean[3]),
         atr_pct, clamp_mult=float(cfg.get('postprocess', {}).get('clamp_atr_mult', 3.5))
     )
-    conf = float(np.max(dir_prob_mean[i]))
+    conf = float(np.max(dir_prob_mean))
 
     # last actual = last day's OHLC
     la = df_idx.loc[pd.to_datetime(base_date)][['open', 'high', 'low', 'close']]
@@ -432,16 +452,24 @@ def decide_and_maybe_place_order(
         entry_price = signal.entry_price or actual_open or prediction.predicted['Open']
     qty = max(1, int(capital_per_trade // entry_price))
 
-    # Compute bracket distances from predicted OHLC
-    o = prediction.predicted['Open']
-    h = prediction.predicted['High']
-    l = prediction.predicted['Low']
+    # Compute bracket distances from predicted OHLC, anchored to actual entry
+    o = float(prediction.predicted['Open'])
+    h = float(prediction.predicted['High'])
+    l = float(prediction.predicted['Low'])
+    ep = float(entry_price)
     if signal.signal_type == 'BUY':
-        stop_loss = max(0.05, o - l)  # absolute distance
-        take_profit = max(0.05, h - o)
+        # SL distance = entry - predicted Low; TP distance = predicted High - entry
+        stop_loss = max(0.05, ep - l)
+        take_profit = max(0.05, h - ep)
+        # Optional: warn if predicted High < entry
+        if h <= ep:
+            pass  # keep minimal distances; strategy decided to trade
     else:  # SELL
-        stop_loss = max(0.05, h - o)
-        take_profit = max(0.05, o - l)
+        # SL distance = predicted High - entry; TP distance = entry - predicted Low
+        stop_loss = max(0.05, h - ep)
+        take_profit = max(0.05, ep - l)
+        if l >= ep:
+            pass
 
     fy_symbol = to_fyers_symbol(sym)
     side = 'BUY' if signal.signal_type == 'BUY' else 'SELL'
@@ -492,6 +520,7 @@ def main():
     ap.add_argument('--open-time', type=str, default='09:16', help='HH:MM IST to begin decisions (default 09:16)')
     ap.add_argument('--wait-timeout-mins', type=int, default=30, help='Maximum minutes to wait for open (default 30)')
     ap.add_argument('--capital', type=float, default=DEFAULT_CAPITAL_PER_TRADE, help='Capital per trade (INR)')
+    ap.add_argument('--allow-duplicate', action='store_true', help='Allow placing another order for the same symbol on the same prediction_date')
     args = ap.parse_args()
 
     symbols = [s.strip().upper() for s in args.symbols.split(',') if s.strip()]
@@ -535,6 +564,12 @@ def main():
                             _time.sleep(sleep_for)
                         except Exception:
                             break
+                    now_after_wait = datetime.now(tz=ist)
+                    if now_after_wait < target_dt and now_after_wait >= deadline:
+                        remaining_str = (target_dt - now_after_wait)
+                        print(f"Wait timeout reached at {now_after_wait.strftime('%H:%M:%S')} IST; {remaining_str} to target {args.open_time}. Proceeding.")
+                    else:
+                        print(f"Reached target time {args.open_time} IST. Proceeding.")
                     # Re-update data to capture the first bars after waiting
                     print('Re-updating data after wait...')
                     updates_after_wait: Dict[str, Dict[str, int]] = {}
@@ -554,6 +589,25 @@ def main():
             print(f"{sym}: prediction unavailable")
 
     print('\n=== Step 4: Strategy decisions and order placements ===')
+    # Build in-memory ledger of already placed orders for today from existing logs
+    ist = ZoneInfo('Asia/Kolkata')
+    today_str = datetime.now(tz=ist).strftime('%Y-%m-%d')
+    placed_ledger = set()
+    try:
+        logs_dir = ROOT / 'logs'
+        if logs_dir.exists():
+            for p in sorted(logs_dir.glob('trade_run_*.json'))[-20:]:  # scan recent
+                try:
+                    with open(p, 'r') as f:
+                        jr = json.load(f)
+                    for r in jr.get('results', []):
+                        order = r.get('order') or {}
+                        if r.get('decision') == 'ORDER_PLACED' and order.get('prediction_date') == today_str:
+                            placed_ledger.add((r.get('symbol'), today_str))
+                except Exception:
+                    continue
+    except Exception:
+        placed_ledger = set()
     results = []
     for sym in symbols:
         if sym not in SYMBOL_PLAN:
@@ -562,6 +616,11 @@ def main():
         pred = preds.get(sym)
         if not pred:
             results.append({'symbol': sym, 'decision': 'NO_TRADE', 'reason': 'no_prediction'})
+            continue
+        # Dedupe: skip if already placed for same symbol+date unless override
+        if (sym, pred.prediction_date) in placed_ledger and not args.allow_duplicate:
+            results.append({'symbol': sym, 'decision': 'SKIPPED', 'reason': 'duplicate_same_day', 'prediction_date': pred.prediction_date})
+            print(f"{sym}: SKIPPED (duplicate order detected for {pred.prediction_date}). Use --allow-duplicate to override.")
             continue
         strategy_key = SYMBOL_PLAN[sym][0]
         rec = decide_and_maybe_place_order(
